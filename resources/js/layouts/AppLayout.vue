@@ -16,3 +16,7 @@ withDefaults(defineProps<Props>(), {
         <slot />
     </AppLayout>
 </template>
+
+/**
+    This layout is for the user dashboard
+*/
