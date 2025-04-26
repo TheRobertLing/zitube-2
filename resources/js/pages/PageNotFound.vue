@@ -25,3 +25,13 @@ import { ArrowLeft } from 'lucide-vue-next';
         </Card>
     </div>
 </template>
+
+<!-- -
+    Page Not Found View for when URL's are invalid
+
+    Notes:
+    - The following uses Ziggy's route helper rather than href="/home" directly.
+    I don't know why. Just accept it for now.
+
+        <Link :href="route('home')" class="w-full"></Link>
+    -->
