@@ -16,7 +16,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
 import type { Auth, BreadcrumbItem, NavItem, SharedData } from '@/types';
-import { Link, router, usePage } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { Flame, House, LayoutGrid, Menu } from 'lucide-vue-next';
 import { computed } from 'vue';
 
@@ -30,10 +30,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const page = usePage<SharedData>();
 const auth = computed(() => page.props.auth as Auth);
-
-const handleLogout = () => {
-    router.flushAll();
-};
 
 const mainNavItems: NavItem[] = [
     {
@@ -59,7 +55,7 @@ const mainNavItems: NavItem[] = [
         <div class="border-sidebar-border/80 border-b">
             <div class="mx-auto flex h-16 items-center justify-between px-4 md:justify-start">
                 <!-- Logo -->
-                <Link :href="route('dashboard')" class="flex items-center gap-x-2">
+                <Link :href="route('home')" class="flex items-center gap-x-2">
                     <AppLogo />
                 </Link>
 
@@ -226,7 +222,7 @@ const mainNavItems: NavItem[] = [
 
         <!-- Breadcrumbs -->
         <div v-if="props.breadcrumbs.length > 1" class="border-sidebar-border/70 flex w-full border-b">
-            <div class="mx-auto flex h-12 w-full items-center justify-start px-4 text-neutral-500 md:max-w-7xl">
+            <div class="mx-auto flex h-12 w-full items-center justify-start px-4 text-neutral-500">
                 <Breadcrumbs :breadcrumbs="breadcrumbs" />
             </div>
         </div>

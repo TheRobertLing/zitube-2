@@ -3,10 +3,10 @@
 <template>
     <footer class="border-sidebar-border/80 flex flex-col items-center space-y-8 border-t py-8 text-center">
         <nav class="flex flex-wrap justify-center gap-6">
-            <a class="text-sm hover:underline">About us</a>
+            <a class="cursor-pointer text-sm hover:underline" href="/about">About ZiTube</a>
             <a class="text-sm hover:underline">Contact</a>
-            <a class="text-sm hover:underline">Jobs</a>
-            <a class="text-sm hover:underline">Press kit</a>
+            <a class="text-sm hover:underline">Road Map</a>
+            <a class="text-sm hover:underline">Donations</a>
         </nav>
 
         <nav class="flex flex-wrap justify-center gap-6">
@@ -65,4 +65,6 @@
 
 <!--
 Default Footer Component for most pages
+
+Used the DaisyUI component for this one
 -->
