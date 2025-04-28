@@ -4,9 +4,9 @@
     <footer class="border-sidebar-border/80 flex flex-col items-center space-y-8 border-t py-8 text-center">
         <nav class="flex flex-wrap justify-center gap-6">
             <a class="cursor-pointer text-sm hover:underline" href="/about">About ZiTube</a>
-            <a class="text-sm hover:underline">Contact</a>
-            <a class="text-sm hover:underline">Road Map</a>
-            <a class="text-sm hover:underline">Donations</a>
+            <a class="cursor-pointer text-sm hover:underline" href="/contact">Contact</a>
+            <a class="cursor-pointer text-sm hover:underline" href="/roadmap">Road Map</a>
+            <a class="cursor-pointer text-sm hover:underline" href="/donations">Donations</a>
         </nav>
 
         <nav class="flex flex-wrap justify-center gap-6">
