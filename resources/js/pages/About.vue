@@ -21,7 +21,6 @@ const breadcrumbs: BreadcrumbItemType[] = [
         <TextPageLayout>
             <h1 class="mb-8 text-4xl font-bold">About ZiTube</h1>
 
-            <!-- Intro Paragraph -->
             <p class="text-lg leading-relaxed">
                 ZiTube is a small project aimed to supplement any aspiring or current Chinese learners by offering a
                 selection of curated videos that demonstrate real language use across a variety of contexts. All videos
@@ -29,7 +28,6 @@ const breadcrumbs: BreadcrumbItemType[] = [
                 designed to guide you as you pick up new words and expressions.
             </p>
 
-            <!-- ZiTube's Goal Section -->
             <section class="mt-16 space-y-6">
                 <h2 class="text-2xl font-semibold">ZiTube's Story</h2>
                 <p class="text-lg leading-relaxed">
