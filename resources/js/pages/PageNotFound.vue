@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from '@inertiajs/vue3';
 import { ArrowLeft } from 'lucide-vue-next';
+
+const back = () => window.history.back()
 </script>
 
 <template>
@@ -16,7 +18,8 @@ import { ArrowLeft } from 'lucide-vue-next';
                 <img src="/images/404PageImage.gif" alt="404 Image" class="w-full rounded-xl object-cover" />
             </CardContent>
             <CardFooter>
-                <Link :href="route('home')" class="w-full">
+                <!-- Weird hack from https://laracasts.com/discuss/channels/inertia/laravel-inertia-how-to-create-back-link -->
+                <Link @click="back" href="#" class="w-full">
                     <Button class="flex w-full cursor-pointer items-center justify-center">
                         <ArrowLeft class="mr-2 h-4 w-4" /> Go Back
                     </Button>
@@ -34,4 +37,7 @@ import { ArrowLeft } from 'lucide-vue-next';
     I don't know why. Just accept it for now.
 
         <Link :href="route('home')" class="w-full"></Link>
-    -->
+
+    - Ziggy doesnt seem to support creating a back link, so the weird hack is done above
+-->
+

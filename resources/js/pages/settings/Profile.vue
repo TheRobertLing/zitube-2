@@ -34,7 +34,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.patch(route('profile.update'), {
+    form.patch(route('account.profile.update'), {
         preserveScroll: true,
     });
 };

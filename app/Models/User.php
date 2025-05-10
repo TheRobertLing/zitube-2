@@ -9,6 +9,11 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    // Constants that define the 2 types of roles
+    public const ROLE_USER = 'user';
+    public const ROLE_ADMIN = 'admin';
+
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -21,6 +26,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**

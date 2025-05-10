@@ -17,8 +17,8 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
 import type { Auth, BreadcrumbItem, NavItem, SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { Home, Menu } from 'lucide-vue-next';
-// import { LayoutGrid } from 'lucide-vue-next'; // Don't need this right now comment out
+import { Menu } from 'lucide-vue-next';
+// import { Home, LayoutGrid } from 'lucide-vue-next'; // Don't need this right now comment out
 import { computed } from 'vue';
 
 interface Props {
@@ -33,11 +33,11 @@ const page = usePage<SharedData>();
 const auth = computed(() => page.props.auth as Auth);
 
 const mainNavItems: NavItem[] = [
-    {
-        title: 'Home',
-        href: '/',
-        icon: Home,
-    },
+    // {
+    //     title: 'Home',
+    //     href: '/',
+    //     icon: Home,
+    // },
     // Uncomment this later
     // {
     //     title: 'Categories',
