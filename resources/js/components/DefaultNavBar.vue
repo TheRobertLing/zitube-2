@@ -17,7 +17,8 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
 import type { Auth, BreadcrumbItem, NavItem, SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { Flame, House, LayoutGrid, Menu } from 'lucide-vue-next';
+import { Home, Menu } from 'lucide-vue-next';
+// import { LayoutGrid } from 'lucide-vue-next'; // Don't need this right now comment out
 import { computed } from 'vue';
 
 interface Props {
@@ -35,23 +36,19 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Home',
         href: '/',
-        icon: House,
+        icon: Home,
     },
-    {
-        title: 'Latest',
-        href: '/',
-        icon: Flame,
-    },
-    {
-        title: 'Categories',
-        href: '/',
-        icon: LayoutGrid,
-    },
+    // Uncomment this later
+    // {
+    //     title: 'Categories',
+    //     href: '/',
+    //     icon: LayoutGrid,
+    // },
 ];
 </script>
 
 <template>
-    <div>
+    <div class="bg-background sticky top-0 z-10">
         <div class="border-sidebar-border/80 border-b">
             <div class="mx-auto flex h-16 items-center justify-between px-4 md:justify-start">
                 <!-- Logo -->

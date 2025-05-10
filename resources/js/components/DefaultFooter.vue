@@ -6,7 +6,6 @@
             <a class="cursor-pointer text-sm hover:underline" href="/about">About ZiTube</a>
             <a class="cursor-pointer text-sm hover:underline" href="/contact">Contact</a>
             <a class="cursor-pointer text-sm hover:underline" href="/roadmap">Road Map</a>
-            <a class="cursor-pointer text-sm hover:underline" href="/donations">Donations</a>
         </nav>
 
         <nav class="flex flex-wrap justify-center gap-6">
