@@ -11,9 +11,21 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
-import { Bookmark, ChevronLeft, History, Info, LayoutGrid, Mail, Route } from 'lucide-vue-next';
+import { SharedData, type NavItem } from '@/types';
+import { Link, usePage } from '@inertiajs/vue3';
+import {
+    Bookmark,
+    ChevronLeft,
+    FileVideo,
+    History,
+    Info,
+    LayoutGrid,
+    Mail,
+    Route,
+    SquarePen,
+    User,
+} from 'lucide-vue-next';
+import NavAdmin from './NavAdmin.vue';
 
 const mainNavItems: NavItem[] = [
     {
@@ -30,6 +42,24 @@ const mainNavItems: NavItem[] = [
         title: 'Saved Words',
         href: '/account/saved-words',
         icon: Bookmark,
+    },
+];
+
+const adminNavItems: NavItem[] = [
+    {
+        title: 'New Video',
+        href: '/admin/new',
+        icon: FileVideo,
+    },
+    {
+        title: 'Edit Video',
+        href: '/admin/edit',
+        icon: SquarePen,
+    },
+    {
+        title: 'Manage Users',
+        href: '/admin/users',
+        icon: User,
     },
 ];
 
@@ -50,6 +80,10 @@ const footerNavItems: NavItem[] = [
         icon: Route,
     },
 ];
+
+const page = usePage<SharedData>();
+
+console.log(page);
 </script>
 
 <template>
@@ -63,7 +97,7 @@ const footerNavItems: NavItem[] = [
                             <div
                                 class="text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-md"
                             >
-                                <ChevronLeft class="size-5 text-black dark:text-white"/>
+                                <ChevronLeft class="size-5 text-black dark:text-white" />
                             </div>
                             <div class="ml-1 grid flex-1 text-left text-sm">
                                 <span class="truncate leading-none font-semibold">Return To ZiTube</span>
@@ -76,6 +110,7 @@ const footerNavItems: NavItem[] = [
 
         <SidebarContent>
             <NavMain :items="mainNavItems" />
+            <NavAdmin v-if="page.props.auth.user.role === 'admin'" :items="adminNavItems" />
         </SidebarContent>
 
         <SidebarFooter>

@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Link } from '@inertiajs/vue3';
 import { ArrowLeft } from 'lucide-vue-next';
 
-const back = () => window.history.back()
+const back = () => window.history.back();
 </script>
 
 <template>
@@ -40,4 +40,3 @@ const back = () => window.history.back()
 
     - Ziggy doesnt seem to support creating a back link, so the weird hack is done above
 -->
-
