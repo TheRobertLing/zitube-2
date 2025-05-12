@@ -20,6 +20,7 @@ import { Link, usePage } from '@inertiajs/vue3';
 import { Menu } from 'lucide-vue-next';
 // import { Home, LayoutGrid } from 'lucide-vue-next'; // Don't need this right now comment out
 import { computed } from 'vue';
+import UserMenuContentNav from './UserMenuContentNav.vue';
 
 interface Props {
     breadcrumbs?: BreadcrumbItem[];
@@ -109,7 +110,7 @@ const mainNavItems: NavItem[] = [
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" class="w-56">
-                            <UserMenuContent :user="auth.user" />
+                            <UserMenuContentNav :user="auth.user" />
                         </DropdownMenuContent>
                     </DropdownMenu>
 

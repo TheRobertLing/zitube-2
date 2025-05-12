@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DefaultFooter from '@/components/DefaultFooter.vue';
+// import DefaultFooter from '@/components/DefaultFooter.vue';
 import DefaultMain from '@/components/DefaultMain.vue';
 import DefaultNavBar from '@/components/DefaultNavBar.vue';
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
@@ -45,7 +45,8 @@ withDefaults(defineProps<Props>(), {
                 </div>
             </slot>
         </DefaultMain>
-        <DefaultFooter />
+        <!-- Don't need footer for now -->
+        <!-- <DefaultFooter /> -->
     </div>
 </template>
 

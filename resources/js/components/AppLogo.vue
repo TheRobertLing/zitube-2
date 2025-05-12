@@ -7,6 +7,6 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
         <AppLogoIcon class="size-5 fill-current text-white dark:text-black" />
     </div>
     <div class="ml-1 grid flex-1 text-left text-sm">
-        <span class="truncate font-semibold leading-none">Laravel Starter Kit</span>
+        <span class="truncate font-semibold leading-none">ZiTube</span>
     </div>
 </template>

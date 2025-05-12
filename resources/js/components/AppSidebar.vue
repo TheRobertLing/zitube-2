@@ -2,6 +2,7 @@
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
+import { Separator } from '@/components/ui/separator';
 import {
     Sidebar,
     SidebarContent,
@@ -19,7 +20,7 @@ import {
     FileVideo,
     History,
     Info,
-    LayoutGrid,
+    LayoutDashboard,
     Mail,
     Route,
     SquarePen,
@@ -31,7 +32,7 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: '/account/dashboard',
-        icon: LayoutGrid,
+        icon: LayoutDashboard,
     },
     {
         title: 'History',
@@ -115,6 +116,7 @@ console.log(page);
 
         <SidebarFooter>
             <NavFooter :items="footerNavItems" />
+            <Separator label="Or" />
             <NavUser />
         </SidebarFooter>
     </Sidebar>
