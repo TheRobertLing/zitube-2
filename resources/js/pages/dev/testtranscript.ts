@@ -97,7 +97,7 @@ export const transcript: TranscriptSegment[] = [
     },
     {
         startTime: 14.4,
-        endTime: 16,
+        endTime: 18,
         tokenizedChinese: [
             { hanzi: ['鸡'], pinyin: ['jī'] },
             { hanzi: ['太'], pinyin: ['tài'] },
@@ -106,4 +106,55 @@ export const transcript: TranscriptSegment[] = [
         english: 'Chicken is too beautiful',
     },
 ];
+
+// Converts the seconds from the iframe api to HH:MM:SS
+export const secondsToStandardTime = (seconds: number): string => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+
+    const hrsStr = hrs > 0 ? String(hrs).padStart(2, '0') + ':' : '';
+    const minsStr = String(mins).padStart(2, '0');
+    const secsStr = String(secs).padStart(2, '0');
+
+    return hrsStr + minsStr + ':' + secsStr;
+}
+
+export type VideoMetadata = {
+    id: string;
+    title: string;
+    description: string;
+    publishedAt: string; // ISO string
+    channel: {
+        id: string;
+        title: string;
+    };
+    duration: string; // ISO 8601 duration
+    categoryId: string;
+    stats: {
+        views: number;
+        likes: number;
+        comments: number;
+    };
+};
+
+export const videoData: VideoMetadata = {
+    id: 'MbEXK7sKqCk',
+    title: '萧敬腾 — 篮球太危险 #鸡太美#篮球太危险#蔡徐坤',
+    description: '',
+    publishedAt: '2022-08-06T15:06:29Z',
+    channel: {
+        id: 'UCJS6eOhldDpi9ZVFSPi49Eg',
+        title: '閑',
+    },
+    duration: 'PT18S',
+    categoryId: '22',
+    stats: {
+        views: 98855,
+        likes: 1825,
+        comments: 54,
+    },
+};
+
+
 

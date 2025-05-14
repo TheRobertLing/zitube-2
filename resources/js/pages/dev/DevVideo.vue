@@ -1,31 +1,72 @@
 <script setup lang="ts">
 import Button from '@/components/ui/button/Button.vue';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import DefaultPageLayout from '@/layouts/DefaultPageLayout.vue';
-import { BreadcrumbItemType } from '@/types';
+import { BreadcrumbItemType, VideoTabItem } from '@/types';
 import { usePlayer } from '@vue-youtube/core';
 import { useMediaQuery } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
-import { transcript } from './testtranscript';
+import { transcript, videoData } from './testtranscript';
+import VideoDictionary from './VideoDictionary.vue';
+import VideoDictionarySettings from './VideoDictionarySettings.vue';
+import VideoDictionarySideBar from './VideoDictionarySideBar.vue';
+import VideoInfo from './VideoInfo.vue';
+import VideoSettings from './VideoSettings.vue';
+import VideoSideBar from './VideoSideBar.vue';
+import VideoTranscript from './VideoTranscript.vue';
 
+// Props related stuff
 const breadcrumbs: BreadcrumbItemType[] = [
     { title: 'Home', href: '/' },
     { title: 'Video', href: '/dev/video' },
 ];
 
+const videoTabItems: VideoTabItem[] = [
+    {
+        tabName: 'Info',
+        cardTitle: 'Video Info',
+        cardDescription: 'View and interact with the transcript of the video here.',
+        component: VideoInfo,
+    },
+    {
+        tabName: 'Transcript',
+        cardTitle: 'Transcript',
+        cardDescription: 'View and interact with the transcript of the video here.',
+        component: VideoTranscript,
+    },
+    {
+        tabName: 'Settings',
+        cardTitle: 'Settings',
+        cardDescription: 'Adjust your preferences here.',
+        component: VideoSettings,
+    },
+];
+
+const videoDictionaryTabItems: VideoTabItem[] = [
+    {
+        tabName: 'Dictionary',
+        cardTitle: 'Dictionary',
+        cardDescription: 'Look up definitions. Powered by CC-EDICT.',
+        component: VideoDictionary,
+    },
+    {
+        tabName: 'Settings',
+        cardTitle: 'Settings',
+        cardDescription: 'Adjust your preferences here.',
+        component: VideoDictionarySettings,
+    },
+];
+
 const youtube = ref();
 const num = ref(0);
 const isMobile = useMediaQuery('(max-width: 1024px)');
+
 const youtubeIframe = ref<HTMLIFrameElement | null>(null);
 
-const panelOneSize = ref<number>(65);
-const panelTwoSize = ref<number>(35);
+const panelOneSize = ref<number>(60);
+const panelTwoSize = ref<number>(40);
 
-const { onReady, instance } = usePlayer('MbEXK7sKqCk', youtube);
+const { onReady, onStateChange, instance } = usePlayer('MbEXK7sKqCk', youtube);
 
 // onReady and watch both used to ensure video frame is resizeable
 onReady((event) => {
@@ -38,6 +79,28 @@ onReady((event) => {
     iframe.classList.add(isMobile.value ? 'h-full' : 'w-full');
 });
 
+let syncInterval: null | number = null;
+const currentTime = ref(-1); // Negative 1 when user just loads in
+
+onStateChange((event) => {
+    const state = event.data;
+
+    if (state === 1) {
+        // playing
+        if (!syncInterval) {
+            syncInterval = setInterval(() => {
+                currentTime.value = instance.value?.getCurrentTime() as number;
+            }, 100);
+        }
+    } else if ([0, 2, 3].includes(state)) {
+        // ended, paused, buffering
+        if (syncInterval) {
+            clearInterval(syncInterval);
+            syncInterval = null;
+        }
+    }
+});
+
 watch(isMobile, (mobile) => {
     if (!youtubeIframe.value) {
         return;
@@ -46,10 +109,10 @@ watch(isMobile, (mobile) => {
     youtubeIframe.value.classList.add(mobile ? 'h-full' : 'w-full');
 });
 
+console.log(youtube.value);
+
 // To make the resizer responsive
 const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
-
-// Testing
 </script>
 
 <template>
@@ -67,107 +130,21 @@ const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
 
             <ResizableHandle id="demo-handle-1" with-handle />
 
-            <ResizablePanel id="demo-panel-2" :default-size="panelTwoSize">
+            <ResizablePanel id="demo-panel-2" :default-size="panelTwoSize" :min-size="25">
                 <ResizablePanelGroup id="demo-group-2" direction="vertical">
-                    <ResizablePanel id="demo-panel-3" :default-size="75">
-                        <div class="gutter flex h-full items-center justify-center overflow-y-auto p-4">
-                            <Tabs default-value="transcript" class="h-full w-full">
-                                <TabsList class="grid w-full grid-cols-2">
-                                    <TabsTrigger value="transcript" class="cursor-pointer"> Transcript </TabsTrigger>
-                                    <TabsTrigger value="settings" class="cursor-pointer"> Settings </TabsTrigger>
-                                </TabsList>
-
-                                <TabsContent value="transcript">
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Transcript</CardTitle>
-                                            <CardDescription>
-                                                View and interact with the transcript of the video here.
-                                            </CardDescription>
-                                        </CardHeader>
-                                        <CardContent class="space-y-2">
-                                            <!-- Placeholder transcript content -->
-                                            <table class="w-full table-fixed text-left text-base">
-                                                <tbody>
-                                                    <template v-for="(line, index) in transcript" :key="index">
-                                                        <tr>
-                                                            <!-- Timestamp column -->
-                                                            <td
-                                                                rowspan="2"
-                                                                colspan="2"
-                                                                class="text-muted-foreground pr-4 break-all"
-                                                            >
-                                                                {{ line.startTime }}
-                                                            </td>
-
-                                                            <!-- Chinese with ruby -->
-                                                            <td colspan="8">
-                                                                <span
-                                                                    v-for="(token, idx) in line.tokenizedChinese"
-                                                                    :key="idx"
-                                                                    class="group inline-block cursor-pointer rounded px-1 transition hover:text-green-300"
-                                                                >
-                                                                    <ruby>
-                                                                        <!-- <template
-                                                                            v-for="(char, i) in token.hanzi"
-                                                                            :key="i"
-                                                                        >
-                                                                            <rb>{{ char }}</rb>
-                                                                            <rt>{{ token.pinyin[i] || '' }}</rt>
-                                                                        </template> -->
-                                                                        <rb>{{
-                                                                            token.hanzi.join('') || 'this failed'
-                                                                        }}</rb>
-                                                                        <rt>{{
-                                                                            token.pinyin.join('') || 'this failed'
-                                                                        }}</rt>
-                                                                    </ruby>
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <!-- English translation -->
-                                                            <td colspan="8" class="text-muted-foreground text-sm">
-                                                                {{ line.english }}
-                                                            </td>
-                                                        </tr>
-                                                        <br />
-                                                    </template>
-                                                </tbody>
-                                            </table>
-                                        </CardContent>
-                                    </Card>
-                                </TabsContent>
-
-                                <TabsContent value="settings">
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle>Settings</CardTitle>
-                                            <CardDescription> Adjust your preferences here. </CardDescription>
-                                        </CardHeader>
-                                        <CardContent class="space-y-2">
-                                            <div class="space-y-1">
-                                                <Label for="theme">Theme</Label>
-                                                <Input id="theme" placeholder="e.g., Light or Dark" />
-                                            </div>
-                                            <div class="space-y-1">
-                                                <Label for="language">Language</Label>
-                                                <Input id="language" placeholder="e.g., English, 中文" />
-                                            </div>
-                                        </CardContent>
-                                        <CardFooter>
-                                            <Button>Save settings</Button>
-                                        </CardFooter>
-                                    </Card>
-                                </TabsContent>
-                            </Tabs>
-                        </div>
+                    <ResizablePanel id="demo-panel-3" :default-size="50" :min-size="25">
+                        <!-- Video Side Bar -->
+                        <VideoSideBar
+                            :video-tab-items="videoTabItems"
+                            :video-meta-data="videoData"
+                            :video-transcript-data="transcript"
+                            :video-instance="instance"
+                        />
                     </ResizablePanel>
                     <ResizableHandle id="demo-handle-2" with-handle />
-                    <ResizablePanel id="demo-panel-4" :default-size="25">
-                        <div class="flex h-full items-center justify-center p-6">
-                            <span class="font-semibold">Three</span>
-                        </div>
+                    <ResizablePanel id="demo-panel-4" :default-size="50" :min-size="25">
+                        <!-- Dictionary Side Bar -->
+                        <VideoDictionarySideBar :dictionary-tab-items="videoDictionaryTabItems" />
                     </ResizablePanel>
                 </ResizablePanelGroup>
             </ResizablePanel>
@@ -175,8 +152,6 @@ const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
 
         <!-- Testing stuff -->
         <Button @click="num = instance?.getCurrentTime() as number">Hi</Button>
-        <Button @click="instance?.seekTo(3.47, true)">Another button 3.47</Button>
-        <Button @click="instance?.seekTo(3, true)">Another button 3s</Button>
         <div>{{ num }}</div>
     </DefaultPageLayout>
 </template>
