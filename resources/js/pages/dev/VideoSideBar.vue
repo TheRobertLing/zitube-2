@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TranscriptSegment, VideoMetaData, VideoTabItem } from '@/types';
-import { Player } from '@vue-youtube/core';
 
 defineProps<{
     videoTabItems: VideoTabItem[];
-    videoMetaData: VideoMetaData;
-    videoTranscriptData: TranscriptSegment[];
-    videoInstance: Player | undefined;
+    videoMetaData: VideoMetaData; // For the info tab
+    videoTranscriptData: TranscriptSegment[]; // For the transcript tab
 }>();
 </script>
 
@@ -30,7 +28,6 @@ defineProps<{
                         }"
                         :video-meta-data="videoMetaData"
                         :video-transcript-data="videoTranscriptData"
-                        :video-instance="videoInstance"
                     />
                 </TabsContent>
             </template>

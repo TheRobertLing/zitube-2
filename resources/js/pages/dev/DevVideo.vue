@@ -11,6 +11,7 @@ import VideoDictionary from './VideoDictionary.vue';
 import VideoDictionarySettings from './VideoDictionarySettings.vue';
 import VideoDictionarySideBar from './VideoDictionarySideBar.vue';
 import VideoInfo from './VideoInfo.vue';
+import VideoPlayer from './VideoPlayer.vue';
 import VideoSettings from './VideoSettings.vue';
 import VideoSideBar from './VideoSideBar.vue';
 import VideoTranscript from './VideoTranscript.vue';
@@ -57,14 +58,17 @@ const videoDictionaryTabItems: VideoTabItem[] = [
     },
 ];
 
-const youtube = ref();
-const num = ref(0);
 const isMobile = useMediaQuery('(max-width: 1024px)');
-
-const youtubeIframe = ref<HTMLIFrameElement | null>(null);
-
 const panelOneSize = ref<number>(60);
 const panelTwoSize = ref<number>(40);
+
+// To make the resizer responsive
+const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
+
+const youtube = ref();
+
+
+const youtubeIframe = ref<HTMLIFrameElement | null>(null);
 
 const { onReady, onStateChange, instance } = usePlayer('MbEXK7sKqCk', youtube);
 
@@ -109,10 +113,8 @@ watch(isMobile, (mobile) => {
     youtubeIframe.value.classList.add(mobile ? 'h-full' : 'w-full');
 });
 
-console.log(youtube.value);
-
-// To make the resizer responsive
-const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
+// Testing with the button
+const num = ref(0);
 </script>
 
 <template>
@@ -123,9 +125,10 @@ const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
             class="min-h-[calc(100vh-7em)] w-full rounded-lg border"
         >
             <ResizablePanel id="demo-panel-1" :default-size="panelOneSize">
-                <div class="flex h-full items-center justify-center p-4">
+                <VideoPlayer />
+                <!-- <div class="flex h-full items-center justify-center p-4">
                     <div ref="youtube"></div>
-                </div>
+                </div> -->
             </ResizablePanel>
 
             <ResizableHandle id="demo-handle-1" with-handle />
@@ -138,7 +141,6 @@ const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
                             :video-tab-items="videoTabItems"
                             :video-meta-data="videoData"
                             :video-transcript-data="transcript"
-                            :video-instance="instance"
                         />
                     </ResizablePanel>
                     <ResizableHandle id="demo-handle-2" with-handle />
@@ -151,16 +153,12 @@ const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
         </ResizablePanelGroup>
 
         <!-- Testing stuff -->
-        <Button @click="num = instance?.getCurrentTime() as number">Hi</Button>
-        <div>{{ num }}</div>
+        <Button @click="num = instance?.getCurrentTime() as number"> Hi </Button>
+        <div>
+            {{ num }}
+        </div>
     </DefaultPageLayout>
 </template>
-
-<style scoped>
-.gutter {
-    scrollbar-gutter: stable;
-}
-</style>
 
 <!--
   Hardcoded Dev view for the video page

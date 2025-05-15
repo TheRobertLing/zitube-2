@@ -1,22 +1,21 @@
 <script setup lang="ts">
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useVueYoutube } from '@/composables/useVueYoutube';
 import { secondsToStandardTime } from '@/lib/utils';
 import { TranscriptSegment, VideoTabDetails } from '@/types';
-import { Player } from '@vue-youtube/core';
-import { ref } from 'vue';
 
-const props = defineProps<{
+defineProps<{
     videoTabDetails: VideoTabDetails;
     videoTranscriptData: TranscriptSegment[];
-    videoInstance: Player | undefined;
 }>();
 
-const currentTime = ref<number>(-1);
+const { currentTime, playerInstance, isReady } = useVueYoutube();
 
+// Click to jump to a certain timestamp
 const handleClick = (timestamp: number): void => {
-    if (props.videoInstance) {
-        props.videoInstance.seekTo(timestamp, true);
+    if (playerInstance.value && isReady.value) {
+        playerInstance.value.seekTo(timestamp, true);
         currentTime.value = timestamp;
     }
 };

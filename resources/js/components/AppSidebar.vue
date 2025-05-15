@@ -116,7 +116,7 @@ console.log(page);
 
         <SidebarFooter>
             <NavFooter :items="footerNavItems" />
-            <Separator label="Or" />
+            <Separator />
             <NavUser />
         </SidebarFooter>
     </Sidebar>
