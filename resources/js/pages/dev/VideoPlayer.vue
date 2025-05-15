@@ -16,6 +16,7 @@ onReady((event) => {
     const iframe = event.target.getIframe();
     youtubeIframe.value = iframe;
 
+    // Make height and width resizable
     iframe.removeAttribute('width');
     iframe.removeAttribute('height');
     iframe.classList.add('aspect-video');
