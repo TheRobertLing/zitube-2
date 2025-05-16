@@ -5,15 +5,15 @@ import { Input } from '@/components/ui/input';
 import { VideoTabDetails } from '@/types';
 
 defineProps<{
-    dictionaryTabDetails: VideoTabDetails;
+    videoTabDetails: VideoTabDetails;
 }>();
 </script>
 
 <template>
     <Card>
         <CardHeader>
-            <CardTitle>{{ dictionaryTabDetails.cardTitle }}</CardTitle>
-            <CardDescription> {{ dictionaryTabDetails.cardDescription }}</CardDescription>
+            <CardTitle>{{ videoTabDetails.cardTitle }}</CardTitle>
+            <CardDescription> {{ videoTabDetails.cardDescription }}</CardDescription>
         </CardHeader>
         <CardContent class="space-y-4">
             <div class="flex gap-2">
