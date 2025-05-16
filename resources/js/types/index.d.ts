@@ -67,18 +67,23 @@ export interface VideoMetaData {
         likes: number;
         comments: number;
     };
-};
+}
 
 export interface TranscriptSegment {
     startTime: number;
     endTime: number;
     tokenizedChinese: ChineseToken[];
     english: string;
-};
+}
 
 export interface ChineseToken {
     hanzi: string[];
     pinyin: string[];
-};
+}
 
-
+export interface DictionaryEntry {
+    traditional: string;
+    simplified: string;
+    pinyin: string;
+    definitions: string[];
+}
