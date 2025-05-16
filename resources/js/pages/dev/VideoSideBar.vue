@@ -12,7 +12,7 @@ defineProps<{
 <template>
     <div class="gutter flex h-full items-center justify-center overflow-y-auto p-4">
         <Tabs default-value="Transcript" class="h-full w-full">
-            <TabsList class="grid w-full" :class="`grid-cols-${videoTabItems.length}`">
+            <TabsList class="grid grid-flow-col auto-cols-fr w-full">
                 <template v-for="(item, index) in videoTabItems" :key="index">
                     <TabsTrigger :value="item.tabName" class="cursor-pointer"> {{ item.tabName }} </TabsTrigger>
                 </template>
