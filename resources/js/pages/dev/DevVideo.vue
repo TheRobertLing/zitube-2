@@ -22,7 +22,7 @@ const videoTabItems: VideoTabItem[] = [
     {
         tabName: 'Info',
         cardTitle: 'Video Info',
-        cardDescription: 'View and interact with the transcript of the video here.',
+        cardDescription: 'Overview, title, description, and upload details',
         component: VideoInfo,
     },
     {
@@ -60,7 +60,7 @@ const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
         <ResizablePanelGroup
             id="demo-group-1"
             :direction="direction"
-            class="min-h-[calc(100vh-7em)] w-full rounded-lg border"
+            class="max-h-[calc(100vh-7em)] min-h-[calc(100vh-7em)] w-full rounded-lg border "
         >
             <ResizablePanel id="demo-panel-1" :default-size="panelOneDefaultSize" :min-size="panelOneMinSize">
                 <VideoPlayer />
