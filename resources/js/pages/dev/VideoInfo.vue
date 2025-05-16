@@ -132,7 +132,7 @@ defineProps<{
             <!-- Description -->
             <div>
                 <h4 class="text-muted-foreground mb-1 text-xs tracking-wide uppercase">Description</h4>
-                <p class="leading-relaxed whitespace-pre-wrap">{{ videoMetaData.description }}</p>
+                <p class="leading-relaxed whitespace-pre-wrap">{{ videoMetaData.description || 'No description.'}}</p>
             </div>
         </CardContent>
     </Card>
