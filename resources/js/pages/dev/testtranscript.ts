@@ -118,7 +118,7 @@ export const secondsToStandardTime = (seconds: number): string => {
     const secsStr = String(secs).padStart(2, '0');
 
     return hrsStr + minsStr + ':' + secsStr;
-}
+};
 
 export type VideoMetadata = {
     id: string;
@@ -141,7 +141,8 @@ export type VideoMetadata = {
 export const videoData: VideoMetadata = {
     id: 'MbEXK7sKqCk',
     title: '萧敬腾 — 篮球太危险 #鸡太美#篮球太危险#蔡徐坤',
-    description: '',
+    description:
+        '三度IG：https://www.instagram.com/3doc0609/\n\n影片來源：\n1) ⚡外婆家的澎湖雞⚡\nhttps://www.bilibili.com/video/BV1cU4y1Z74j\n\n2) 599買的ikun13\nhttps://www.bilibili.com/video/BV1BT411J7B2\n\n3) 你幹嘛！？小黑子他們不能放過我？\nhttps://www.bilibili.com/video/BV1cY411H7Sc\n\n4) 史上最強蔡徐坤打籃球\nhttps://www.bilibili.com/video/BV1h4411g7Fp\n\n5) 蕭敬騰夜太美雞太美\nhttps://www.bilibili.com/video/BV1FS4y1W71U\n\n6) 周杰倫最偉大的雞\nhttps://www.bilibili.com/video/BV1XN4y1M7o5\n\n7) 練習時長兩分半女坤\nhttps://www.bilibili.com/video/BV1at4y1V7NC\n\n8) 來自印度的ikun 印度版雞你太美\nhttps://www.bilibili.com/video/BV1se411L7sG\n\n9) 雞你太美，但是是機械版玩具！\nhttps://www.bilibili.com/video/BV1vP4y1S7xX\n\n10) 沒點才藝都不敢說自己是ikun\nhttps://www.bilibili.com/video/BV1rm4y1A79M\n\n11) 電《雞》嘲諷 Groove Battle電搖嘲諷\nhttps://www.bilibili.com/video/BV1DY4y1V7YK\n\n12) 坤坤大戰三浦\n https://www.bilibili.com/video/BV1p94y197jR\n\n13) 本來挺喜歡喝阿薩姆的\nhttps://www.bilibili.com/video/BV1Qe4y1s7Er\n\n14) 三萬粉整活兒：《大 悲 咒》，但是只因你太美。\nhttps://www.bilibili.com/video/BV1Q44y1f7aX\n\n#蔡徐坤 \n#小黑子\n#Ikun\n-----------------------------------------------------------\n笑話投稿請點→http://bit.ly/2Jk2NyO\n其他邀演合作請洽：3dmm0609@gmail.com\n\n#fun\n#live\n#funny\n#comedy\n#lol\n#fun\n#meme\n#trending\n#memes\n#Entertainment',
     publishedAt: '2022-08-06T15:06:29Z',
     channel: {
         id: 'UCJS6eOhldDpi9ZVFSPi49Eg',
@@ -155,6 +156,3 @@ export const videoData: VideoMetadata = {
         comments: 54,
     },
 };
-
-
-
