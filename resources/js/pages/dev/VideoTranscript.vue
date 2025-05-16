@@ -26,11 +26,12 @@ const handleClick = (timestamp: number): void => {
         <CardHeader>
             <CardTitle>{{ videoTabDetails.cardTitle }}</CardTitle>
             <CardDescription>{{ videoTabDetails.cardDescription }}</CardDescription>
+            <Separator />
         </CardHeader>
 
         <CardContent class="space-y-2">
             <table class="w-full table-fixed border-collapse text-left text-base">
-                <thead class="text-muted-foreground border-b text-sm">
+                <thead class="text-muted-foreground text-sm">
                     <tr>
                         <th class="w-24 text-center">Time</th>
                         <th>Transcript</th>
