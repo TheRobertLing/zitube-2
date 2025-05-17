@@ -85,5 +85,6 @@ export interface DictionaryEntry {
     traditional: string;
     simplified: string;
     pinyin: string;
-    definitions: string[];
+    definitions: string; // Json array
+    source: string;
 }

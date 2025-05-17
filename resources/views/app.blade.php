@@ -28,6 +28,32 @@
             html.dark {
                 background-color: oklch(0.145 0 0);
             }
+
+            * {
+                scrollbar-width: thin;
+                scrollbar-color: #888 transparent;
+            }
+
+            /* WebKit-based browsers (Chrome, Safari, Edge) */
+            *::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            *::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            *::-webkit-scrollbar-thumb {
+                background-color: #555;
+                border-radius: 4px;
+                border: 2px solid transparent;
+                background-clip: content-box;
+            }
+
+            *::-webkit-scrollbar-thumb:hover {
+                background-color: #777;
+            }
+
         </style>
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>

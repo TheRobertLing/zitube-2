@@ -34,7 +34,7 @@ const videoTabItems: VideoTabItem[] = [
     {
         tabName: 'Dictionary',
         cardTitle: 'Dictionary',
-        cardDescription: 'Look up definitions. Powered by CC-EDICT.',
+        cardDescription: 'Look up definitions of words and phrases. Powered by CC-EDICT.',
         component: VideoDictionary,
     },
     {

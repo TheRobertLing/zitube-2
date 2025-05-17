@@ -4,6 +4,8 @@
 /public/build
 /public/hot
 /public/storage
+/public/audio
+/public/images
 /storage/*.key
 /storage/pail
 /vendor
