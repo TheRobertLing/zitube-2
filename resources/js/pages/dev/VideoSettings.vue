@@ -1,41 +1,33 @@
 <script setup lang="ts">
-import Button from '@/components/ui/button/Button.vue';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Label from '@/components/ui/label/Label.vue';
 import Separator from '@/components/ui/separator/Separator.vue';
+import Switch from '@/components/ui/switch/Switch.vue';
+import { useTraditional } from '@/composables/useTraditional';
 import { VideoTabDetails } from '@/types';
 
 defineProps<{
     videoTabDetails: VideoTabDetails;
 }>();
+
+const { showTraditional } = useTraditional();
 </script>
 
 <template>
-    <Card>
+    <Card class="flex h-full flex-1 flex-col">
         <CardHeader>
             <CardTitle>{{ videoTabDetails.cardTitle }}</CardTitle>
             <CardDescription>{{ videoTabDetails.cardDescription }}</CardDescription>
             <Separator />
         </CardHeader>
-        <CardContent class="space-y-2">
-            <div class="space-y-1">
-                <Label for="theme">Theme</Label>
-                <Input id="theme" placeholder="e.g., Light or Dark" />
-            </div>
-            <div class="space-y-1">
-                <Label for="language">Language</Label>
-                <Input id="language" placeholder="e.g., English, 中文" />
+
+        <CardContent class="flex flex-1 flex-col space-y-6 overflow-y-auto">
+            <div class="flex items-center space-x-3">
+                <Switch v-model="showTraditional" class="cursor-pointer" />
+                <Label>Display Traditional Chinese</Label>
             </div>
         </CardContent>
-        <CardFooter>
-            <Button>Save settings</Button>
-        </CardFooter>
     </Card>
 </template>
 
 <style scoped></style>
-
-<!--
-
--->

@@ -3,58 +3,26 @@ import Button from '@/components/ui/button/Button.vue';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import Separator from '@/components/ui/separator/Separator.vue';
-import { DictionaryEntry, VideoTabDetails } from '@/types';
+import { useDictionarySearch } from '@/composables/useDictionarySearch';
+import { VideoTabDetails } from '@/types';
 import { numberToDiacritic } from 'pinyin-tools';
-import { ref } from 'vue';
 
 defineProps<{
     videoTabDetails: VideoTabDetails;
 }>();
 
-const searchQuery = ref<string>('');
-const searchResults = ref<DictionaryEntry[]>([]);
-const state = ref<'initial' | 'loading' | 'results'>('initial');
-const error = ref<string | null>(null);
-
-const search = async () => {
-    const query = searchQuery.value?.trim();
-
-    if (!query) return;
-
-    state.value = 'loading';
-
-    error.value = null;
-
-    try {
-        const params = new URLSearchParams({ query });
-        const response = await fetch(`/api/v1/dictionary?${params}`);
-
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-
-        const json: DictionaryEntry[] = await response.json();
-        console.log(json);
-        searchResults.value = json;
-    } catch (err) {
-        console.error(err);
-        error.value = 'Failed to fetch dictionary results.';
-        searchResults.value = [];
-    } finally {
-        state.value = 'results';
-    }
-};
+const { searchQuery, searchResults, state, search } = useDictionarySearch();
 </script>
 
 <template>
-    <Card>
+    <Card class="flex h-full flex-1 flex-col">
         <CardHeader>
             <CardTitle>{{ videoTabDetails.cardTitle }}</CardTitle>
             <CardDescription>{{ videoTabDetails.cardDescription }}</CardDescription>
             <Separator />
         </CardHeader>
 
-        <CardContent class="space-y-6">
+        <CardContent class="flex flex-1 flex-col space-y-6 overflow-y-auto">
             <!-- Search Bar -->
             <div class="flex items-center gap-2">
                 <Input
@@ -72,8 +40,8 @@ const search = async () => {
                 <em>simplified Chinese</em> characters. Use the following prefixes to narrow your search:
                 <ul class="mt-1 ml-5 list-disc space-y-1">
                     <li>
-                        <code>p:</code> — search by <strong>pinyin</strong> (use tone numbers and <code>u:</code> for ü,
-                        e.g. <code>p:nu:3</code>)
+                        <code>p:</code> — search by <strong>pinyin</strong>. All pinyin should be separated by a
+                        whitespace (e.g. <code>p:ni3 hao3</code>)
                     </li>
                     <li><code>s:</code> — search by <strong>simplified</strong> Chinese (e.g. <code>s:爱</code>)</li>
                     <li><code>t:</code> — search by <strong>traditional</strong> Chinese (e.g. <code>t:愛</code>)</li>

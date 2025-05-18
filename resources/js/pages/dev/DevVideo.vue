@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import DefaultPageLayout from '@/layouts/DefaultPageLayout.vue';
+import VideoPageLayout from '@/layouts/VideoPageLayout.vue';
 import { BreadcrumbItemType, VideoTabItem } from '@/types';
 import { useMediaQuery } from '@vueuse/core';
 import { computed, ref } from 'vue';
@@ -51,19 +51,21 @@ const panelOneMinSize = ref<number>(0);
 const panelTwoDefaultSize = ref<number>(40);
 const panelTwoMinSize = ref<number>(30);
 
+const url = 'MbEXK7sKqCk';
+
 // To make the resizer responsive
 const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
 </script>
 
 <template>
-    <DefaultPageLayout :breadcrumbs="breadcrumbs">
+    <VideoPageLayout :breadcrumbs="breadcrumbs">
         <ResizablePanelGroup
             id="demo-group-1"
             :direction="direction"
-            class="max-h-[calc(100vh-7em)] min-h-[calc(100vh-7em)] w-full rounded-lg border "
+            class="max-h-[calc(100vh-8rem)] min-h-[calc(100vh-8rem)] w-full rounded-lg border"
         >
             <ResizablePanel id="demo-panel-1" :default-size="panelOneDefaultSize" :min-size="panelOneMinSize">
-                <VideoPlayer />
+                <VideoPlayer :video-id="url" />
             </ResizablePanel>
 
             <ResizableHandle id="demo-handle-1" with-handle />
@@ -76,7 +78,7 @@ const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
                 />
             </ResizablePanel>
         </ResizablePanelGroup>
-    </DefaultPageLayout>
+    </VideoPageLayout>
 </template>
 
 <!--

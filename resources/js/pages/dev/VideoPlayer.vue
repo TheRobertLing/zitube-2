@@ -4,11 +4,15 @@ import { usePlayer } from '@vue-youtube/core';
 import { useMediaQuery } from '@vueuse/core';
 import { ref, useTemplateRef, watch } from 'vue';
 
+const props = defineProps<{
+    videoId: string;
+}>();
+
 const videoFrameRef = useTemplateRef('videoContainer'); // YouTube container div
 const youtubeIframe = ref<HTMLIFrameElement | null>(null);
 const isMobile = useMediaQuery('(max-width: 1024px)');
 const { isReady, playerInstance, currentTime } = useVueYoutube();
-const { onReady, onStateChange, instance } = usePlayer('MbEXK7sKqCk', videoFrameRef);
+const { onReady, onStateChange, instance } = usePlayer(props.videoId, videoFrameRef);
 let syncInterval: number | null = null;
 
 onReady((event) => {
@@ -32,10 +36,11 @@ onStateChange((event) => {
         syncInterval = setInterval(() => {
             currentTime.value = instance.value?.getCurrentTime() ?? -1;
         }, 100);
-    } else if ([0, 2, 3].includes(state) && syncInterval) {
-        // Ended / paused / buffering: stop interval
+    } else if (state === 0 && syncInterval) {
+        // Video ended: stop interval
         clearInterval(syncInterval);
         syncInterval = null;
+        currentTime.value = -1;
     }
 });
 
