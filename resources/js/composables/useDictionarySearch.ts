@@ -1,5 +1,5 @@
 import { DictionaryEntry } from '@/types';
-import { Ref, ref } from 'vue';
+import { ref } from 'vue';
 
 const searchQuery = ref<string>('');
 const searchResults = ref<DictionaryEntry[]>([]);
@@ -44,15 +44,7 @@ async function search(): Promise<void> {
     }
 }
 
-export function useDictionarySearch(): {
-    searchQuery: Ref<string>;
-    searchResults: Ref<DictionaryEntry[]>;
-    state: Ref<'initial' | 'loading' | 'results'>;
-    error: Ref<string | null>;
-    triggerDictionarySearch: (query: string) => void;
-    registerSearchCallback: (fn: () => void) => void;
-    search: () => Promise<void>;
-} {
+export function useDictionarySearch() {
     return {
         searchQuery,
         searchResults,

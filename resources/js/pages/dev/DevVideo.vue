@@ -50,6 +50,7 @@ const panelOneDefaultSize = ref<number>(60);
 const panelOneMinSize = ref<number>(0);
 const panelTwoDefaultSize = ref<number>(40);
 const panelTwoMinSize = ref<number>(30);
+const panelTwoVerticalMinSize = ref<number>(40);
 
 const url = 'MbEXK7sKqCk';
 
@@ -70,7 +71,7 @@ const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
 
             <ResizableHandle id="demo-handle-1" with-handle />
 
-            <ResizablePanel id="demo-panel-2" :default-size="panelTwoDefaultSize" :min-size="panelTwoMinSize">
+            <ResizablePanel id="demo-panel-2" :default-size="panelTwoDefaultSize" :min-size="direction === 'horizontal' ? panelTwoMinSize : panelTwoVerticalMinSize">
                 <VideoSideBar
                     :video-tab-items="videoTabItems"
                     :video-meta-data="videoData"

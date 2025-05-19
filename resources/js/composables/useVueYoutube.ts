@@ -1,14 +1,97 @@
-import { Player } from '@vue-youtube/core';
-import { ref } from 'vue';
+import { MaybeElementRef, Player, usePlayer } from '@vue-youtube/core';
+import { useMediaQuery } from '@vueuse/core';
+import { ref, watch } from 'vue';
 
-const isReady = ref<boolean>(false);
-const playerInstance = ref<Player | undefined>(undefined);
-const currentTime = ref<number>(-1);
+// Shared singleton state
+const isReady = ref(false);
+const playerInstance = ref<Player>();
+const currentTime = ref(-1);
+const youtubeIframe = ref<HTMLIFrameElement | null>(null);
 
+let syncInterval: number | null = null;
+
+// Starts syncing currentTime every 100ms
+function startSync() {
+    if (!syncInterval) {
+        syncInterval = setInterval(() => {
+            const time = playerInstance.value?.getCurrentTime() ?? -1;
+            if (time !== currentTime.value) {
+                currentTime.value = time;
+            }
+        }, 100);
+    }
+}
+
+// Stops syncing
+function stopSync() {
+    if (syncInterval) {
+        clearInterval(syncInterval);
+        syncInterval = null;
+    }
+}
+
+// Seeks to a specific time, restarts sync after brief pause
+function goToTime(timestamp: number): void {
+    if (playerInstance.value && isReady.value) {
+        // stop sync hack to try and stop transcript jittering
+        stopSync();
+        playerInstance.value.seekTo(timestamp, true);
+        currentTime.value = timestamp;
+
+        // Wait briefly for seek to "settle" before resyncing
+        setTimeout(() => {
+            startSync();
+        }, 100);
+    }
+}
+
+// Initializes the player and sets up event listeners
+export function initVueYoutube(videoId: string, videoFrameRef: MaybeElementRef) {
+    const isMobile = useMediaQuery('(max-width: 1024px)');
+    const { onReady, onStateChange, instance } = usePlayer(videoId, videoFrameRef);
+
+    onReady((event) => {
+        const iframe = event.target.getIframe();
+        youtubeIframe.value = iframe;
+
+        iframe.removeAttribute('width');
+        iframe.removeAttribute('height');
+        iframe.classList.add('aspect-video');
+        iframe.classList.add(isMobile.value ? 'h-full' : 'w-full');
+
+        isReady.value = true;
+        playerInstance.value = instance.value;
+    });
+
+    onStateChange((event) => {
+        const state = event.data;
+
+        if (state === 1) {
+            // Playing
+            startSync();
+        } else if (state === 0) {
+            // Ended or paused
+            stopSync();
+            if (state === 0) {
+                currentTime.value = -1;
+            }
+        }
+    });
+
+    watch(isMobile, (mobile) => {
+        if (!youtubeIframe.value) return;
+        youtubeIframe.value.classList.remove('w-full', 'h-full');
+        youtubeIframe.value.classList.add(mobile ? 'h-full' : 'w-full');
+    });
+}
+
+// Consumer API — used in transcript or other places
 export function useVueYoutube() {
     return {
+        isReady,
         currentTime,
         playerInstance,
-        isReady,
+        youtubeIframe,
+        goToTime,
     };
 }

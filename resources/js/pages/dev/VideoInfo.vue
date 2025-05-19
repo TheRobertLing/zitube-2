@@ -2,6 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Separator from '@/components/ui/separator/Separator.vue';
 import { VideoMetaData, VideoTabDetails } from '@/types';
+import { Eye, MessageCircle, ThumbsUp } from 'lucide-vue-next';
 
 defineProps<{
     videoTabDetails: VideoTabDetails;
@@ -17,7 +18,7 @@ defineProps<{
             <Separator />
         </CardHeader>
 
-        <CardContent class="flex flex-1 flex-col space-y-6 overflow-y-auto text-sm">
+        <CardContent class="flex flex-1 flex-col space-y-4 overflow-y-auto scroll-smooth text-sm">
             <!-- Original Video -->
             <div>
                 <h4 class="text-muted-foreground text-xs tracking-wide uppercase">Watch Original Video</h4>
@@ -73,58 +74,19 @@ defineProps<{
             <div class="text-muted-foreground flex flex-wrap gap-4">
                 <!-- Views -->
                 <div class="inline-flex items-center gap-1.5">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="h-4 w-4"
-                    >
-                        <path
-                            d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
-                        />
-                        <circle cx="12" cy="12" r="3" />
-                    </svg>
+                    <Eye class="h-4 w-4" />
                     <span class="font-medium">{{ videoMetaData.stats.views.toLocaleString() }}</span> views
                 </div>
 
                 <!-- Likes -->
                 <div class="inline-flex items-center gap-1.5">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="h-4 w-4"
-                    >
-                        <path d="M7 10v12" />
-                        <path
-                            d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"
-                        />
-                    </svg>
+                    <ThumbsUp class="h-4 w-4" />
                     <span class="font-medium">{{ videoMetaData.stats.likes.toLocaleString() }}</span> likes
                 </div>
 
                 <!-- Comments -->
                 <div class="inline-flex items-center gap-1.5">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="h-4 w-4"
-                    >
-                        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-                    </svg>
+                    <MessageCircle class="h-4 w-4" />
                     <span class="font-medium">{{ videoMetaData.stats.comments.toLocaleString() }}</span> comments
                 </div>
             </div>

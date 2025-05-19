@@ -1,80 +1,22 @@
 <script setup lang="ts">
-import { useVueYoutube } from '@/composables/useVueYoutube';
-import { usePlayer } from '@vue-youtube/core';
-import { useMediaQuery } from '@vueuse/core';
-import { ref, useTemplateRef, watch } from 'vue';
+import { initVueYoutube } from '@/composables/useVueYoutube';
+import { useTemplateRef } from 'vue';
 
 const props = defineProps<{
     videoId: string;
 }>();
 
 const videoFrameRef = useTemplateRef('videoContainer'); // YouTube container div
-const youtubeIframe = ref<HTMLIFrameElement | null>(null);
-const isMobile = useMediaQuery('(max-width: 1024px)');
-const { isReady, playerInstance, currentTime } = useVueYoutube();
-const { onReady, onStateChange, instance } = usePlayer(props.videoId, videoFrameRef);
-let syncInterval: number | null = null;
-
-onReady((event) => {
-    const iframe = event.target.getIframe();
-    youtubeIframe.value = iframe;
-
-    iframe.removeAttribute('width');
-    iframe.removeAttribute('height');
-    iframe.classList.add('aspect-video');
-    iframe.classList.add(isMobile.value ? 'h-full' : 'w-full');
-
-    isReady.value = true;
-    playerInstance.value = instance.value;
-});
-
-onStateChange((event) => {
-    const state = event.data;
-
-    if (state === 1 && !syncInterval) {
-        // Playing: start sync interval
-        syncInterval = setInterval(() => {
-            currentTime.value = instance.value?.getCurrentTime() ?? -1;
-        }, 100);
-    } else if (state === 0 && syncInterval) {
-        // Video ended: stop interval
-        clearInterval(syncInterval);
-        syncInterval = null;
-        currentTime.value = -1;
-    }
-});
-
-watch(isMobile, (mobile) => {
-    if (!youtubeIframe.value) {
-        return;
-    }
-    youtubeIframe.value.classList.remove('w-full', 'h-full');
-    youtubeIframe.value.classList.add(mobile ? 'h-full' : 'w-full');
-});
+initVueYoutube(props.videoId, videoFrameRef);
 </script>
 
 <template>
-    <div class="flex h-full items-center justify-center p-4">
-        <div ref="videoContainer">
-            <div v-if="!isReady">
-                <span class="loader"></span>
-            </div>
-        </div>
+    <div class="flex h-full items-center justify-center p-2">
+        <div ref="videoContainer"></div>
     </div>
 </template>
 
-<style scoped>
-.loader {
-    width: 48px;
-    height: 48px;
-    border: 5px solid #fff;
-    border-bottom-color: transparent;
-    border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-}
-</style>
+<style scoped></style>
 
 <!--
     Video Player component

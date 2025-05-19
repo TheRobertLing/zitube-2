@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Don't need either of the helpers for now
+ */
 function normalizePinyin($pinyin): string
 {
     $search = ['v', 'ü', 'ǖ', 'ǘ', 'ǚ', 'ǜ'];

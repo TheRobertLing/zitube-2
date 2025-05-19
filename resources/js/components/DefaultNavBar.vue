@@ -2,9 +2,7 @@
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import {
     NavigationMenu,
     NavigationMenuItem,
@@ -13,14 +11,10 @@ import {
     navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import UserMenuContent from '@/components/UserMenuContent.vue';
-import { getInitials } from '@/composables/useInitials';
 import type { Auth, BreadcrumbItem, NavItem, SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import { Menu } from 'lucide-vue-next';
-// import { Home, LayoutGrid } from 'lucide-vue-next'; // Don't need this right now comment out
 import { computed } from 'vue';
-import UserMenuContentNav from './UserMenuContentNav.vue';
 
 interface Props {
     breadcrumbs?: BreadcrumbItem[];
@@ -80,13 +74,8 @@ const mainNavItems: NavItem[] = [
                 </div>
 
                 <!-- Desktop Login / Search / Register / Profile Section -->
-                <div class="hidden items-center space-x-2 md:flex">
-                    <!-- Dont need search button for now -->
-                    <!-- <div class="relative flex items-center space-x-1">
-                        <Button variant="ghost" size="icon" class="group h-9 w-9 cursor-pointer">
-                            <Search class="size-5 opacity-80 group-hover:opacity-100" />
-                        </Button>
-                    </div> -->
+                <!-- HIDE THESE FOR NOW, UNCOMMENT LATER ONCE LOGIN SYSTEM IMPLEMENTED -->
+                <!-- <div class="hidden items-center space-x-2 md:flex">
 
                     <DropdownMenu v-if="auth.user">
                         <DropdownMenuTrigger :as-child="true">
@@ -128,7 +117,7 @@ const mainNavItems: NavItem[] = [
                             Register
                         </Link>
                     </template>
-                </div>
+                </div> -->
 
                 <!-- Mobile Menu -->
                 <div class="md:hidden">
@@ -162,14 +151,9 @@ const mainNavItems: NavItem[] = [
                                 </nav>
 
                                 <!-- Mobile auth + search actions -->
-                                <div class="flex flex-col gap-2">
-                                    <!-- Search Button DONT NEED THIS FOR NOW-->
-                                    <!-- <Button variant="ghost" class="justify-start">
-                                        <Search class="mr-2 h-4 w-4" />
-                                        Search
-                                    </Button> -->
+                                <!-- HIDE THESE FOR NOW, UNCOMMENT LATER ONCE LOGIN SYSTEM IMPLEMENTED -->
+                                <!-- <div class="flex flex-col gap-2">
 
-                                    <!-- If user logged in -->
                                     <DropdownMenu v-if="auth.user">
                                         <DropdownMenuTrigger :as-child="true">
                                             <Button
@@ -210,7 +194,7 @@ const mainNavItems: NavItem[] = [
                                             Register
                                         </Link>
                                     </template>
-                                </div>
+                                </div> -->
                             </div>
                         </SheetContent>
                     </Sheet>

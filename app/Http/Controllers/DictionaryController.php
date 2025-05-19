@@ -15,24 +15,18 @@ class DictionaryController extends Controller
             return response()->json([]);
         }
 
-        $parsed = parseSearch($query);
-        $column = $parsed['column'];
-        $term = $parsed['term'];
+        // $parsed = parseSearch($query);
+        // $column = $parsed['column'];
+        // $term = $parsed['term'];
 
-        $allowed = ['pinyin', 'simplified', 'traditional'];
-        if (!in_array($column, $allowed)) {
-            return response()->json(['error' => 'Invalid search prefix.'], 400);
-        }
+        // $allowed = ['pinyin', 'simplified', 'traditional'];
+        // if (!in_array($column, $allowed)) {
+        //     return response()->json(['error' => 'Invalid search prefix.'], 400);
+        // }
 
-        $results = Dictionary::select([
-            'traditional',
-            'simplified',
-            'pinyin',
-            'definitions',
-            'source',
-        ])
-            ->whereRaw("LOWER($column) = ?", [$term])
-            ->get();
+        $results = Dictionary::where('simplified', $query)
+            ->orWhere('traditional', $query)
+            ->get(['traditional', 'simplified', 'pinyin', 'definitions', 'source']);
 
         return response()->json($results);
     }

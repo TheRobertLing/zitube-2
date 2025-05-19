@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Label from '@/components/ui/label/Label.vue';
 import Separator from '@/components/ui/separator/Separator.vue';
 import Switch from '@/components/ui/switch/Switch.vue';
+import { useAutoScroller } from '@/composables/useAutoScroller';
 import { useTraditional } from '@/composables/useTraditional';
 import { VideoTabDetails } from '@/types';
 
@@ -11,6 +12,7 @@ defineProps<{
 }>();
 
 const { showTraditional } = useTraditional();
+const { autoscrollerEnabled } = useAutoScroller();
 </script>
 
 <template>
@@ -21,10 +23,14 @@ const { showTraditional } = useTraditional();
             <Separator />
         </CardHeader>
 
-        <CardContent class="flex flex-1 flex-col space-y-6 overflow-y-auto">
-            <div class="flex items-center space-x-3">
+        <CardContent class="flex flex-1 flex-col space-y-4 overflow-y-auto scroll-smooth">
+            <div class="flex items-center space-x-4">
                 <Switch v-model="showTraditional" class="cursor-pointer" />
-                <Label>Display Traditional Chinese</Label>
+                <Label>Display traditional chinese</Label>
+            </div>
+            <div class="flex items-center space-x-4">
+                <Switch v-model="autoscrollerEnabled" class="cursor-pointer" />
+                <Label>Toggle transcript autoscroller</Label>
             </div>
         </CardContent>
     </Card>

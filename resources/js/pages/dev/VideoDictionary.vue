@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import Button from '@/components/ui/button/Button.vue';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import Separator from '@/components/ui/separator/Separator.vue';
+import { Separator } from '@/components/ui/separator';
 import { useDictionarySearch } from '@/composables/useDictionarySearch';
 import { VideoTabDetails } from '@/types';
-import { numberToDiacritic } from 'pinyin-tools';
+import VideoDictionaryEntry from './VideoDictionaryEntry.vue';
 
 defineProps<{
     videoTabDetails: VideoTabDetails;
@@ -15,14 +23,56 @@ const { searchQuery, searchResults, state, search } = useDictionarySearch();
 </script>
 
 <template>
-    <Card class="flex h-full flex-1 flex-col">
+    <Card class="flex h-full flex-1 flex-col gap-1">
         <CardHeader>
             <CardTitle>{{ videoTabDetails.cardTitle }}</CardTitle>
             <CardDescription>{{ videoTabDetails.cardDescription }}</CardDescription>
             <Separator />
+            <div class="text-muted-foreground flex items-center gap-3 text-[10px]">
+                <Dialog>
+                    <DialogTrigger as-child>
+                        <span class="cursor-pointer transition hover:text-green-500 hover:underline">
+                            Usage Instructions
+                        </span>
+                    </DialogTrigger>
+                    <DialogContent class="sm:max-w-md">
+                        <DialogHeader>
+                            <DialogTitle>Dictionary Search Guide</DialogTitle>
+                            <DialogDescription>
+                                Learn how to use the built-in Chinese dictionary effectively.
+                            </DialogDescription>
+                            <Separator />
+                        </DialogHeader>
+
+                        <div class="text-muted-foreground space-y-4 text-sm">
+                            <p>
+                                You can look up words by typing either <strong>Simplified</strong> or
+                                <strong>Traditional</strong> Chinese characters.
+                            </p>
+
+                            <ul class="list-disc space-y-2 pl-5">
+                                <li>The search matches exact word entries — partial matches may not return results.</li>
+                                <li>
+                                    Pinyin search is currently <strong>not supported</strong>. This will be added in a
+                                    future update.
+                                </li>
+                                <li>
+                                    Try common or complete words first (e.g., <code>人</code>, <code>喜欢</code>,
+                                    <code>愛</code>) rather than fragments.
+                                </li>
+                            </ul>
+
+                            <p class="text-muted-foreground text-xs">
+                                Example: Searching for <code>爱</code> will return definitions related to "love",
+                                including compound words and expressions where it's used.
+                            </p>
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            </div>
         </CardHeader>
 
-        <CardContent class="flex flex-1 flex-col space-y-6 overflow-y-auto">
+        <CardContent class="flex flex-1 flex-col space-y-4 overflow-y-auto scroll-smooth">
             <!-- Search Bar -->
             <div class="flex items-center gap-2">
                 <Input
@@ -33,19 +83,6 @@ const { searchQuery, searchResults, state, search } = useDictionarySearch();
                     @keydown.enter="search"
                 />
                 <Button type="submit" class="cursor-pointer" @click="search"> Search </Button>
-            </div>
-
-            <div class="text-muted-foreground text-xs">
-                <strong class="tracking-wide uppercase">Search Tips:</strong> By default, your query matches
-                <em>simplified Chinese</em> characters. Use the following prefixes to narrow your search:
-                <ul class="mt-1 ml-5 list-disc space-y-1">
-                    <li>
-                        <code>p:</code> — search by <strong>pinyin</strong>. All pinyin should be separated by a
-                        whitespace (e.g. <code>p:ni3 hao3</code>)
-                    </li>
-                    <li><code>s:</code> — search by <strong>simplified</strong> Chinese (e.g. <code>s:爱</code>)</li>
-                    <li><code>t:</code> — search by <strong>traditional</strong> Chinese (e.g. <code>t:愛</code>)</li>
-                </ul>
             </div>
 
             <!-- Initial state -->
@@ -62,44 +99,9 @@ const { searchQuery, searchResults, state, search } = useDictionarySearch();
                 </div>
 
                 <!-- Results list -->
-                <div
-                    v-for="(entry, index) in searchResults"
-                    :key="index"
-                    class="bg-background rounded-xl border p-4 shadow-sm"
-                >
-                    <!-- Characters & Pronunciation -->
-                    <div class="grid gap-1 text-sm">
-                        <div class="flex gap-2">
-                            <span class="text-muted-foreground w-20 text-xs tracking-wide uppercase">Traditional:</span>
-                            <span class="ml-1.5 text-xs tracking-wide uppercase">{{ entry.traditional }}</span>
-                        </div>
-                        <div class="flex gap-2">
-                            <span class="text-muted-foreground w-20 text-xs tracking-wide uppercase">Simplified:</span>
-                            <span class="ml-1.5 text-xs tracking-wide uppercase">{{ entry.simplified }}</span>
-                        </div>
-                        <div class="flex gap-2">
-                            <span class="text-muted-foreground w-20 text-xs tracking-wide uppercase">Pinyin:</span>
-                            <span class="ml-1.5 text-xs tracking-wide uppercase"
-                                >{{ entry.pinyin }} / {{ numberToDiacritic(entry.pinyin.split(' ')).join(' ') }}</span
-                            >
-                        </div>
-                    </div>
-
-                    <Separator class="my-2" />
-
-                    <!-- Definitions -->
-                    <div>
-                        <h4 class="text-muted-foreground mb-1 text-xs tracking-wide uppercase">Definitions</h4>
-                        <ol class="ml-5 list-disc space-y-1 text-sm leading-relaxed">
-                            <li v-for="(def, defIndex) in JSON.parse(entry.definitions)" :key="defIndex">
-                                {{ def }}
-                            </li>
-                        </ol>
-                    </div>
-
-                    <!-- Source -->
-                    <div class="text-muted-foreground mt-3 border-t pt-2 text-xs">Source: CC-EDICT</div>
-                </div>
+                <template v-for="(entry, index) in searchResults" :key="index">
+                    <VideoDictionaryEntry :entry="entry" />
+                </template>
             </div>
         </CardContent>
     </Card>
