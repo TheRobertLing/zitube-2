@@ -13,7 +13,7 @@ class ContactController extends Controller
 {
     public function create(Request $request): Response
     {
-        return Inertia::render('Contact');
+        return Inertia::render('public/Contact');
     }
 
     public function send(Request $request): RedirectResponse
