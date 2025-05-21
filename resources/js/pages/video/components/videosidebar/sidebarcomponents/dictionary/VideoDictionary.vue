@@ -25,7 +25,7 @@ const { searchQuery, searchResults, state, search } = useDictionarySearch();
 
 <template>
     <Card class="flex h-full flex-1 flex-col gap-1">
-        <CardHeader>
+        <CardHeader class="gutter overflow-y-auto">
             <CardTitle>{{ videoTabDetails.cardTitle }}</CardTitle>
             <CardDescription>{{ videoTabDetails.cardDescription }}</CardDescription>
             <Separator />
@@ -73,7 +73,7 @@ const { searchQuery, searchResults, state, search } = useDictionarySearch();
             </div>
         </CardHeader>
 
-        <CardContent class="flex flex-1 flex-col space-y-4 overflow-y-auto scroll-smooth">
+        <CardContent class="gutter flex flex-1 flex-col space-y-4 overflow-y-auto scroll-smooth">
             <div class="flex items-center gap-2">
                 <Input
                     class=""
