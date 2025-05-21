@@ -8,6 +8,8 @@ import { computed, ref } from 'vue';
 import VideoPlayer from './components/videobox/VideoPlayer.vue';
 import VideoSideBar from './components/videosidebar/VideoSideBar.vue';
 
+import { transcript as t, videoData as d } from '../dev/testtranscript'; // Make sure to get rid of this in a second
+
 defineProps<{
     videoData: VideoMetaData;
     videoTranscript: TranscriptSegment[];
@@ -32,15 +34,15 @@ const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
 
 <template>
     <Head>
-        <title>{{ videoData.title }} | ZiTube</title>
+        <title>ZiTube - {{ d.title }}</title>
         <meta
             name="description"
-            :content="`Watch ${videoData.title} with interactive Chinese subtitles and learn in context on ZiTube.`"
+            :content="`Watch ${d.title} with interactive Chinese subtitles and learn in context on ZiTube.`"
         />
-        <meta property="og:title" :content="videoData.title" />
+        <meta property="og:title" :content="d.title" />
         <meta
             property="og:description"
-            :content="videoData.description || 'Learn Chinese through native content with interactive tools.'"
+            :content="d.description || 'Learn Chinese through native content with interactive tools.'"
         />
         <meta property="og:type" content="video.other" />
         <meta property="og:url" :content="`https://zitube.com${page.url}`" />
@@ -53,7 +55,7 @@ const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
             class="max-h-[calc(100vh-8rem)] min-h-[calc(100vh-8rem)] w-full"
         >
             <ResizablePanel id="demo-panel-1" :default-size="panelOneDefaultSize" :min-size="panelOneMinSize">
-                <VideoPlayer :video-id="videoData.id" />
+                <VideoPlayer :video-id="d.id || 'MbEXK7sKqCk'" />
             </ResizablePanel>
 
             <ResizableHandle id="demo-handle-1" with-handle />
@@ -63,7 +65,7 @@ const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
                 :default-size="panelTwoDefaultSize"
                 :min-size="direction === 'horizontal' ? panelTwoMinSize : panelTwoVerticalMinSize"
             >
-                <VideoSideBar :video-meta-data="videoData" :video-transcript-data="videoTranscript" />
+                <VideoSideBar :video-meta-data="d" :video-transcript-data="t" />
             </ResizablePanel>
         </ResizablePanelGroup>
     </VideoPageLayout>
