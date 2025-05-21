@@ -47,8 +47,6 @@ withDefaults(defineProps<Props>(), {
     </div>
 </template>
 
-<style scoped></style>
-
 <!--
     Basically default page layout but the main slot is replaced
 -->
