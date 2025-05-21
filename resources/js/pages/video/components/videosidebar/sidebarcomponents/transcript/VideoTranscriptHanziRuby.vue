@@ -19,9 +19,13 @@ const { triggerDictionarySearch } = useDictionarySearch();
     >
         <ruby>
             <template v-for="(char, i) in hanzi.map((c, i) => [c, pinyin[i] || ''])" :key="i">
-                <rb class="tracking-wider">{{ showTraditional ? tify(char[0]) : char[0] }}</rb>
+                <span class="tracking-wider">{{ showTraditional ? tify(char[0]) : char[0] }}</span>
                 <rt class="text-muted-foreground text-[10px]">{{ char[1] }}</rt>
             </template>
         </ruby>
     </span>
 </template>
+
+<!--
+    Note: click.stop stops the click even from reaching the line and changing the line
+-->
