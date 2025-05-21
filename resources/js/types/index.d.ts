@@ -48,6 +48,7 @@ export interface VideoTabDetails {
 
 export interface VideoTabItem extends VideoTabDetails {
     tabName: string;
+    icon?: Component; // Icon
     component: Component;
 }
 
@@ -74,6 +75,7 @@ export interface TranscriptSegment {
     endTime: number;
     tokenizedChinese: ChineseToken[];
     english: string;
+    context?: string; // HTML literal
 }
 
 export interface ChineseToken {
