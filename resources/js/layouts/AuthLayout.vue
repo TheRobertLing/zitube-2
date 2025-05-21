@@ -12,7 +12,3 @@ defineProps<{
         <slot />
     </AuthLayout>
 </template>
-
-/**
-    This layout is for the login/signup page
-*/
