@@ -38,3 +38,7 @@ const copyLine = () => {
         </DropdownMenuContent>
     </DropdownMenu>
 </template>
+
+<!--
+    Note: click.stop stops the click even from reaching the line and changing the line
+-->
