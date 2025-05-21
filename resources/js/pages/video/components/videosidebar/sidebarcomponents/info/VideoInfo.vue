@@ -12,13 +12,13 @@ defineProps<{
 
 <template>
     <Card class="flex h-full flex-1 flex-col">
-        <CardHeader>
+        <CardHeader class="gutter overflow-y-auto">
             <CardTitle>{{ videoTabDetails.cardTitle }}</CardTitle>
             <CardDescription>{{ videoTabDetails.cardDescription }}</CardDescription>
             <Separator />
         </CardHeader>
 
-        <CardContent class="flex flex-1 flex-col space-y-4 overflow-y-auto scroll-smooth text-sm">
+        <CardContent class="gutter flex flex-1 flex-col space-y-4 overflow-y-auto scroll-smooth text-sm">
             <!-- Original Video -->
             <div>
                 <h4 class="text-muted-foreground text-xs tracking-wide uppercase">Watch Original Video</h4>
