@@ -8,11 +8,13 @@ import { secondsToStandardTime } from '@/lib/utils';
 import type { TranscriptSegment, VideoTabDetails } from '@/types';
 import { computed, onMounted, ref, watch } from 'vue';
 import VideoTranscriptHanziRuby from './VideoTranscriptHanziRuby.vue';
+import VideoTranscriptLineContext from './VideoTranscriptLineContext.vue';
 import VideoTranscriptLineMenu from './VideoTranscriptLineMenu.vue';
 
 const props = defineProps<{
     videoTabDetails: VideoTabDetails;
     videoTranscriptData: TranscriptSegment[];
+    width: number;
 }>();
 
 const { currentTime, goToTime } = useVueYoutube();
@@ -64,7 +66,7 @@ onMounted(() => {
 
 <template>
     <Card class="flex h-full flex-1 flex-col gap-1">
-        <CardHeader>
+        <CardHeader class="gutter overflow-y-auto">
             <CardTitle>{{ videoTabDetails.cardTitle }}</CardTitle>
             <CardDescription>{{ videoTabDetails.cardDescription }}</CardDescription>
             <Separator />
@@ -82,67 +84,49 @@ onMounted(() => {
             </div>
         </CardHeader>
 
-        <CardContent id="scroll-container" class="flex flex-1 flex-col space-y-4 overflow-y-auto scroll-smooth">
-            <table class="w-full table-fixed border-collapse text-left">
-                <thead class="text-muted-foreground text-xs tracking-wide uppercase">
-                    <tr>
-                        <th class="w-24 text-center">Time</th>
-                        <th>Transcript</th>
-                        <th class="w-12 text-center"></th>
-                    </tr>
-                </thead>
-                <tbody class="[tr+tr]:pt-2 [&>tr]:align-top">
-                    <template v-for="(line, index) in videoTranscriptData" :key="index">
-                        <tr
-                            :class="['group transcript-row cursor-pointer', getLineHighlightClass(line)]"
-                            :ref="(el) => (transcriptRowRefs[index] = el as HTMLElement)"
-                            @click="goToTime(line.startTime)"
-                        >
-                            <td
-                                class="text-muted-foreground rounded-l-xl text-center align-middle font-mono text-xs tracking-wide uppercase hover:text-green-500"
-                                rowspan="2"
-                            >
-                                {{ secondsToStandardTime(line.startTime) }}
-                            </td>
-                            <td class="pt-1 leading-snug">
-                                <template v-for="(char, idx) in line.tokenizedChinese" :key="idx">
-                                    <VideoTranscriptHanziRuby :hanzi="char.hanzi" :pinyin="char.pinyin" />
-                                </template>
-                            </td>
-                            <td class="w-12 rounded-r-xl text-center align-middle" rowspan="2">
-                                <VideoTranscriptLineMenu :line="line" />
-                            </td>
-                        </tr>
+        <CardContent id="scroll-container" class="gutter flex flex-1 flex-col overflow-y-auto scroll-smooth">
+            <div
+                v-for="(line, index) in videoTranscriptData"
+                :key="index"
+                :ref="(el) => (transcriptRowRefs[index] = el as HTMLElement)"
+                @click="goToTime(line.startTime)"
+                class="group hover:bg-muted/50 flex w-full cursor-pointer rounded-xl transition-colors"
+                :class="getLineHighlightClass(line)"
+            >
+                <!-- Time -->
+                <div
+                    class="text-muted-foreground flex min-w-20 items-center justify-center rounded-l-xl font-mono text-xs tracking-wide uppercase hover:text-green-500"
+                >
+                    {{ secondsToStandardTime(line.startTime) }}
+                </div>
 
-                        <tr
-                            :class="['transcript-row cursor-pointer', getLineHighlightClass(line)]"
-                            @click="goToTime(line.startTime)"
-                        >
-                            <td class="text-muted-foreground pl-1 text-sm">
-                                <span @click.stop>{{ line.english }}</span>
-                            </td>
-                        </tr>
-                    </template>
-                </tbody>
-            </table>
+                <!-- Transcript content -->
+                <div class="flex flex-1 flex-col justify-center py-1">
+                    <!-- Chinese -->
+                    <div class="leading-snug">
+                        <template v-for="(char, idx) in line.tokenizedChinese" :key="idx">
+                            <VideoTranscriptHanziRuby :hanzi="char.hanzi" :pinyin="char.pinyin" />
+                        </template>
+                    </div>
+                    <!-- English -->
+                    <div class="text-muted-foreground pl-1 text-sm">
+                        <span class="break-all" @click.stop>{{ line.english }}</span>
+                    </div>
+                </div>
 
+                <!-- Options -->
+                <div class="flex shrink-0 items-center justify-center rounded-r-xl">
+                    <VideoTranscriptLineContext :context="line.context" :width="width" />
+                </div>
+
+                <!-- Options -->
+                <div class="flex shrink-0 items-center justify-center rounded-r-xl">
+                    <VideoTranscriptLineMenu :line="line" />
+                </div>
+            </div>
+
+            <br />
             <Separator label="End of Transcript" />
         </CardContent>
     </Card>
 </template>
-
-<style scoped>
-.transcript-row:hover td {
-    border: 1px solid hsl(var(--muted));
-    background-color: hsl(var(--muted) / 0.15);
-    transition: all 0.15s ease;
-}
-.transcript-row:hover td:first-child {
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
-}
-.transcript-row:hover td:last-child {
-    border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
-}
-</style>
