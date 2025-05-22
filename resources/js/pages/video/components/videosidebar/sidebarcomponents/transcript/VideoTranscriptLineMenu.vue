@@ -23,7 +23,7 @@ const copyLine = () => {
 
 <template>
     <Toaster richColors />
-    <DropdownMenu>
+    <DropdownMenu :modal="false">
         <DropdownMenuTrigger as-child>
             <Button
                 class="text-muted-foreground flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:text-white"
@@ -33,7 +33,7 @@ const copyLine = () => {
                 <EllipsisVertical class="h-4 w-4" />
             </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent class="w-40 text-sm">
+        <DropdownMenuContent class="w-40 text-sm" align="end">
             <DropdownMenuItem class="cursor-pointer" @click="copyLine"> <Clipboard /> Copy Line </DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>
