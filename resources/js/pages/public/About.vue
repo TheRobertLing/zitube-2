@@ -11,7 +11,7 @@ const breadcrumbs = [
 
 <template>
     <Head>
-        <title>About | ZiTube</title>
+        <title>About</title>
         <meta
             name="description"
             content="ZiTube is a curated video platform designed to complement Chinese language study with integrated learning features."
@@ -63,7 +63,7 @@ const breadcrumbs = [
                 </header>
 
                 <!-- Feature 1 -->
-                <div class="flex flex-col gap-10 text-base lg:flex-row">
+                <div class="flex flex-col-reverse gap-10 text-base lg:flex-row">
                     <!-- COMPARISON BOX -->
                     <div class="flex w-full flex-col justify-center rounded-lg bg-neutral-800 p-6 lg:w-1/2">
                         <div class="mb-1 font-semibold text-neutral-400">Sentence:</div>
@@ -130,7 +130,7 @@ const breadcrumbs = [
                 </div>
 
                 <!-- Feature 2 -->
-                <div class="flex flex-col-reverse gap-10 text-base lg:flex-row">
+                <div class="flex flex-col gap-10 text-base lg:flex-row">
                     <article class="w-full space-y-4 lg:w-1/2">
                         <h3 class="text-xl font-semibold tracking-wide">Interactive Transcript</h3>
                         <p>
@@ -147,7 +147,7 @@ const breadcrumbs = [
                 </div>
 
                 <!-- Feature 3 -->
-                <div class="flex flex-col gap-10 text-base lg:flex-row">
+                <div class="flex flex-col-reverse gap-10 text-base lg:flex-row">
                     <div
                         class="flex aspect-video w-full items-center justify-center rounded-lg bg-neutral-800 text-sm text-neutral-500 lg:w-1/2"
                     >
