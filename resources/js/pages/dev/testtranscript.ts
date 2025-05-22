@@ -3,6 +3,7 @@ export type TranscriptSegment = {
     endTime: number;
     tokenizedChinese: ChineseToken[];
     english: string;
+    context?: string; // html literal
 };
 
 export type ChineseToken = {
@@ -13,15 +14,12 @@ export type ChineseToken = {
 export const transcript: TranscriptSegment[] = [
     {
         startTime: 0,
-        endTime: 0.9,
-        tokenizedChinese: [{ hanzi: ['鸡', '你'], pinyin: ['jī', 'nǐ'] }],
-        english: 'Chicken you',
-    },
-    {
-        startTime: 0.9,
         endTime: 1.8,
-        tokenizedChinese: [{ hanzi: ['太', '美'], pinyin: ['tài', 'měi'] }],
-        english: 'are too beautiful',
+        tokenizedChinese: [{ hanzi: ['鸡', '你', '太', '美'], pinyin: ['jī', 'nǐ', 'tài', 'měi'] }],
+        english: 'Chicken you are too beautiful',
+        context: `
+            <p> This is a meme reference </p>
+        `,
     },
     {
         startTime: 1.8,
@@ -43,6 +41,9 @@ export const transcript: TranscriptSegment[] = [
         endTime: 4.15,
         tokenizedChinese: [{ hanzi: ['哎', '呦'], pinyin: ['āi', 'yō'] }],
         english: 'Aiyo',
+        context: `
+            <p> This is a meme reference </p>
+        `,
     },
     {
         startTime: 4.15,
@@ -158,7 +159,6 @@ export const transcript: TranscriptSegment[] = [
         english: 'beautiful',
     },
 ];
-
 
 // Converts the seconds from the iframe api to HH:MM:SS
 export const secondsToStandardTime = (seconds: number): string => {
