@@ -18,7 +18,7 @@ defineProps<{
             <Separator />
         </CardHeader>
 
-        <CardContent class="gutter flex flex-1 flex-col space-y-4 overflow-y-auto scroll-smooth text-sm">
+        <CardContent class="gutter flex flex-1 flex-col space-y-4 overflow-y-auto scroll-smooth text-sm break-all">
             <!-- Original Video -->
             <div>
                 <h4 class="text-muted-foreground text-xs tracking-wide uppercase">Watch Original Video</h4>
