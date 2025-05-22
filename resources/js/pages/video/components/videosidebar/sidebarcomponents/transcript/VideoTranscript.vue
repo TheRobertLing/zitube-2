@@ -71,10 +71,7 @@ onMounted(() => {
             <CardDescription>{{ videoTabDetails.cardDescription }}</CardDescription>
             <Separator />
 
-            <div
-                class="text-muted-foreground flex items-center justify-end gap-3 text-[10px]"
-                v-show="!autoscrollerEnabled"
-            >
+            <div class="text-muted-foreground flex items-center gap-3 text-[10px]" v-show="!autoscrollerEnabled">
                 <span
                     class="cursor-pointer transition hover:text-green-500 hover:underline"
                     @click="scrollToLine(currentLineIndex)"
@@ -84,7 +81,11 @@ onMounted(() => {
             </div>
         </CardHeader>
 
-        <CardContent id="scroll-container" class="gutter flex flex-1 flex-col overflow-y-auto scroll-smooth">
+        <CardContent
+            id="scroll-container"
+            class="gutter flex flex-1 flex-col overflow-y-auto scroll-smooth"
+            @scroll="scrollContainer?.focus()"
+        >
             <div
                 v-for="(line, index) in videoTranscriptData"
                 :key="index"
@@ -95,7 +96,7 @@ onMounted(() => {
             >
                 <!-- Time -->
                 <div
-                    class="text-muted-foreground flex min-w-20 items-center justify-center rounded-l-xl font-mono text-xs tracking-wide uppercase hover:text-green-500"
+                    class="text-muted-foreground flex min-w-18 items-center justify-center rounded-l-xl font-mono text-xs tracking-wide uppercase hover:text-green-500"
                 >
                     {{ secondsToStandardTime(line.startTime) }}
                 </div>
