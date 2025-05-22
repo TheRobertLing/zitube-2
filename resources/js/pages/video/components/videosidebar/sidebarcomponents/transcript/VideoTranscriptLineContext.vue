@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Lightbulb } from 'lucide-vue-next';
+import { BookOpen } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
 
 const props = defineProps<{
@@ -22,31 +21,21 @@ watch(
 
 <template>
     <template v-if="context">
-        <TooltipProvider>
-            <Tooltip>
-                <Popover>
-                    <TooltipTrigger as-child>
-                        <PopoverTrigger as-child>
-                            <Button
-                                class="text-muted-foreground flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition hover:text-white"
-                                variant="ghost"
-                                @click.stop
-                            >
-                                <Lightbulb class="h-4 w-4" />
-                            </Button>
-                        </PopoverTrigger>
-                    </TooltipTrigger>
+        <Popover>
+            <PopoverTrigger as-child>
+                <Button
+                    class="text-muted-foreground flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition hover:text-white"
+                    variant="ghost"
+                    @click.stop
+                >
+                    <BookOpen class="h-4 w-4" />
+                </Button>
+            </PopoverTrigger>
 
-                    <TooltipContent side="left">
-                        <p>See Explanation</p>
-                    </TooltipContent>
-
-                    <PopoverContent side="bottom" align="end" :alignOffset="-32" :style="{ width: popoverWidth }">
-                        <div v-html="context" class="text-xs tracking-wide"></div>
-                    </PopoverContent>
-                </Popover>
-            </Tooltip>
-        </TooltipProvider>
+            <PopoverContent side="bottom" align="end" :alignOffset="-32" :style="{ width: popoverWidth }">
+                <div v-html="context" class="text-xs tracking-wide"></div>
+            </PopoverContent>
+        </Popover>
     </template>
 
     <template v-else>
@@ -57,7 +46,7 @@ watch(
             variant="ghost"
             disabled
         >
-            <Lightbulb class="h-4 w-4" />
+            <BookOpen class="h-4 w-4" />
         </Button>
     </template>
 </template>
