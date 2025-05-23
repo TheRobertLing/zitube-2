@@ -41,13 +41,18 @@ const isMobile = useMediaQuery('(max-width: 1024px)');
 
     <VideoPageLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full w-full flex-col lg:flex-row">
+            <!-- Video player container -->
             <div
-                class="relative flex aspect-video w-full shrink-0 items-center justify-center overflow-hidden md:flex-1/2 lg:flex-3/5"
+                class="relative flex aspect-video w-full items-center justify-center overflow-hidden md:flex-1/2 lg:flex-3/5"
             >
                 <VideoPlayer :video-id="d.id || 'MbEXK7sKqCk'" />
             </div>
-            <Separator :orientation="isMobile ? 'horizontal' : 'vertical'"></Separator>
-            <div class="grow overflow-y-auto md:flex-1/2 lg:flex-2/5">
+
+            <!-- Separator based on screen size -->
+            <Separator :orientation="isMobile ? 'horizontal' : 'vertical'" />
+
+            <!-- Sidebar container -->
+            <div class="flex-1 overflow-y-auto md:flex-1/2 lg:flex-2/5">
                 <VideoSideBar :video-meta-data="d" :video-transcript-data="t" />
             </div>
         </div>
