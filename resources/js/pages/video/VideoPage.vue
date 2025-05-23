@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import Separator from '@/components/ui/separator/Separator.vue';
 import VideoPageLayout from '@/layouts/video/VideoPageLayout.vue';
 import { BreadcrumbItemType, TranscriptSegment, VideoMetaData } from '@/types';
 import { Head, usePage } from '@inertiajs/vue3';
 import { useMediaQuery } from '@vueuse/core';
-import { computed, ref } from 'vue';
+import { videoData as d, transcript as t } from '../dev/testtranscript';
 import VideoPlayer from './components/videobox/VideoPlayer.vue';
 import VideoSideBar from './components/videosidebar/VideoSideBar.vue';
-
-import { transcript as t, videoData as d } from '../dev/testtranscript'; // Make sure to get rid of this in a second
 
 defineProps<{
     videoData: VideoMetaData;
@@ -21,15 +19,8 @@ const breadcrumbs: BreadcrumbItemType[] = [
 ];
 
 const page = usePage();
-const isMobile = useMediaQuery('(max-width: 1024px)');
-const panelOneDefaultSize = ref<number>(60);
-const panelOneMinSize = ref<number>(0);
-const panelTwoDefaultSize = ref<number>(40);
-const panelTwoMinSize = ref<number>(30);
-const panelTwoVerticalMinSize = ref<number>(40);
 
-// To make the resizer responsive
-const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
+const isMobile = useMediaQuery('(max-width: 1024px)');
 </script>
 
 <template>
@@ -49,28 +40,16 @@ const direction = computed(() => (isMobile.value ? 'vertical' : 'horizontal'));
     </Head>
 
     <VideoPageLayout :breadcrumbs="breadcrumbs">
-        <ResizablePanelGroup
-            id="demo-group-1"
-            :direction="direction"
-            class="max-h-[calc(100vh-8rem)] min-h-[calc(100vh-8rem)] w-full"
-        >
-            <ResizablePanel id="demo-panel-1" :default-size="panelOneDefaultSize" :min-size="panelOneMinSize">
-                <VideoPlayer :video-id="d.id || 'MbEXK7sKqCk'" />
-            </ResizablePanel>
-
-            <ResizableHandle id="demo-handle-1" with-handle />
-
-            <ResizablePanel
-                id="demo-panel-2"
-                :default-size="panelTwoDefaultSize"
-                :min-size="direction === 'horizontal' ? panelTwoMinSize : panelTwoVerticalMinSize"
+        <div class="flex h-full w-full flex-col lg:flex-row">
+            <div
+                class="relative flex aspect-video w-full shrink-0 items-center justify-center overflow-hidden md:flex-1/2 lg:flex-3/5"
             >
+                <VideoPlayer :video-id="d.id || 'MbEXK7sKqCk'" />
+            </div>
+            <Separator :orientation="isMobile ? 'horizontal' : 'vertical'"></Separator>
+            <div class="grow overflow-y-auto md:flex-1/2 lg:flex-2/5">
                 <VideoSideBar :video-meta-data="d" :video-transcript-data="t" />
-            </ResizablePanel>
-        </ResizablePanelGroup>
+            </div>
+        </div>
     </VideoPageLayout>
 </template>
-
-<!--
-  Production view for the video page
--->
