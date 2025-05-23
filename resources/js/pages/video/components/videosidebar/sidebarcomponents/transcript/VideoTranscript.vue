@@ -86,6 +86,7 @@ onMounted(() => {
             class="gutter flex flex-1 flex-col overflow-y-auto scroll-smooth"
             @scroll="scrollContainer?.focus()"
         >
+            <!-- Hi this is a test comment -->
             <div
                 v-for="(line, index) in videoTranscriptData"
                 :key="index"
