@@ -1,6 +1,11 @@
 import { MaybeElementRef, Player, usePlayer } from '@vue-youtube/core';
-import { useMediaQuery } from '@vueuse/core';
-import { ref, watch } from 'vue';
+import { useBreakpoints } from '@vueuse/core';
+import { ref, watchEffect } from 'vue';
+
+const breakpoints = useBreakpoints({
+    md: 768,
+    lg: 1024,
+});
 
 // Shared singleton state
 const isReady = ref(false);
@@ -47,7 +52,6 @@ function goToTime(timestamp: number): void {
 
 // Initializes the player and sets up event listeners
 export function initVueYoutube(videoId: string, videoFrameRef: MaybeElementRef) {
-    const isMobile = useMediaQuery('(max-width: 1024px)');
     const { onReady, onStateChange, instance } = usePlayer(videoId, videoFrameRef);
 
     onReady((event) => {
@@ -57,10 +61,22 @@ export function initVueYoutube(videoId: string, videoFrameRef: MaybeElementRef) 
         iframe.removeAttribute('width');
         iframe.removeAttribute('height');
         iframe.classList.add('aspect-video');
-        iframe.classList.add(isMobile.value ? 'h-full' : 'w-full');
 
-        isReady.value = true;
+        watchEffect(() => {
+            const isMidScreen = breakpoints.between('md', 'lg').value;
+
+            if (!iframe) return;
+
+            iframe.classList.remove('w-full', 'h-full');
+
+            if (isMidScreen) {
+                iframe.classList.add('h-full');
+            } else {
+                iframe.classList.add('w-full');
+            }
+        });
         playerInstance.value = instance.value;
+        isReady.value = true;
     });
 
     onStateChange((event) => {
@@ -76,12 +92,6 @@ export function initVueYoutube(videoId: string, videoFrameRef: MaybeElementRef) 
                 currentTime.value = -1;
             }
         }
-    });
-
-    watch(isMobile, (mobile) => {
-        if (!youtubeIframe.value) return;
-        youtubeIframe.value.classList.remove('w-full', 'h-full');
-        youtubeIframe.value.classList.add(mobile ? 'h-full' : 'w-full');
     });
 }
 
