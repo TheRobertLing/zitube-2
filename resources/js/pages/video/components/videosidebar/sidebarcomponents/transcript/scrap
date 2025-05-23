@@ -1,0 +1,42 @@
+            <div
+                v-for="(line, index) in videoTranscriptData"
+                :key="index"
+                :ref="(el) => (transcriptRowRefs[index] = el as HTMLElement)"
+                @click="goToTime(line.startTime)"
+                class="group hover:bg-muted/50 flex w-full cursor-pointer rounded-xl transition-colors"
+                :class="getLineHighlightClass(line)"
+            >
+                <!-- Time -->
+                <div
+                    class="text-muted-foreground flex min-w-18 items-center justify-center rounded-l-xl font-mono text-xs tracking-wide uppercase hover:text-green-500"
+                >
+                    {{ secondsToStandardTime(line.startTime) }}
+                </div>
+
+                <!-- Transcript content -->
+                <div class="flex flex-1 flex-col justify-center py-1">
+                    <!-- Chinese -->
+                    <div class="leading-snug">
+                        <template v-for="(char, idx) in line.tokenizedChinese" :key="idx">
+                            <VideoTranscriptHanziRuby :hanzi="char.hanzi" :pinyin="char.pinyin" />
+                        </template>
+                    </div>
+                    <!-- English -->
+                    <div class="text-muted-foreground pl-1 text-sm">
+                        <span class="break-all" @click.stop>{{ line.english }}</span>
+                    </div>
+                </div>
+
+                <!-- Options -->
+                <div class="flex shrink-0 items-center justify-center rounded-r-xl">
+                    <VideoTranscriptLineContext :context="line.context" :width="width" />
+                </div>
+
+                <!-- Options -->
+                <div class="flex shrink-0 items-center justify-center rounded-r-xl">
+                    <VideoTranscriptLineMenu :line="line" />
+                </div>
+            </div>
+
+            <br />
+            <Separator label="End of Transcript" />
