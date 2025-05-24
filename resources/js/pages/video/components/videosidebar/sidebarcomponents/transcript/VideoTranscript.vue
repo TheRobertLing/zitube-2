@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import { useAutoScroller } from '@/composables/useAutoScroller';
 import { useVueYoutube } from '@/composables/useVueYoutube';
 import { currentIndexBinarySearch } from '@/lib/binarysearch';
 import type { TranscriptSegment, VideoTabDetails } from '@/types';
 import { computed, onMounted, ref, watch } from 'vue';
+import VideoSideBarCard from '../VideoSideBarCard.vue';
 import VideoPagination from './VideoPagination.vue';
 
 const props = defineProps<{
@@ -63,28 +62,20 @@ onMounted(() => {
 </script>
 
 <template>
-    <Card class="flex h-full flex-1 flex-col gap-2">
-        <CardHeader class="gutter" v-if="height > 350">
-            <CardTitle>{{ videoTabDetails.cardTitle }}</CardTitle>
-            <CardDescription>{{ videoTabDetails.cardDescription }}</CardDescription>
-            <Separator />
-
-            <div class="text-muted-foreground flex items-center gap-3 text-[10px]" v-show="!autoscrollerEnabled">
-                <span
-                    class="cursor-pointer transition hover:text-green-500 hover:underline"
-                    @click="scrollToLine(currentLineIndex)"
-                >
-                    Go to Current Line
-                </span>
-            </div>
-        </CardHeader>
-
-        <CardContent
-            id="scroll-container"
-            class="gutter flex flex-1 flex-col overflow-y-auto scroll-smooth"
-            @scroll="scrollContainer?.focus()"
-        >
-            <VideoPagination :video-transcript-data="videoTranscriptData" />
-        </CardContent>
-    </Card>
+    <VideoSideBarCard
+        :video-tab-details="videoTabDetails"
+        :height="height"
+        id="scroll-container"
+        @scroll="scrollContainer?.focus()"
+    >
+        <div class="text-muted-foreground flex items-center gap-3 text-[10px]" v-show="!autoscrollerEnabled">
+            <span
+                class="cursor-pointer transition hover:text-green-500 hover:underline"
+                @click="scrollToLine(currentLineIndex)"
+            >
+                Go to Current Line
+            </span>
+        </div>
+        <VideoPagination :video-transcript-data="videoTranscriptData" />
+    </VideoSideBarCard>
 </template>
