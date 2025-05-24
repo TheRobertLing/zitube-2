@@ -7,12 +7,13 @@ import { Eye, MessageCircle, ThumbsUp } from 'lucide-vue-next';
 defineProps<{
     videoTabDetails: VideoTabDetails;
     videoMetaData: VideoMetaData;
+    height: number;
 }>();
 </script>
 
 <template>
-    <Card class="flex h-full flex-1 flex-col">
-        <CardHeader class="gutter overflow-y-auto">
+    <Card class="flex h-full flex-1 flex-col gap-2">
+        <CardHeader class="gutter" v-if="height > 350">
             <CardTitle>{{ videoTabDetails.cardTitle }}</CardTitle>
             <CardDescription>{{ videoTabDetails.cardDescription }}</CardDescription>
             <Separator />

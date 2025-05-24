@@ -9,6 +9,7 @@ import { VideoTabDetails } from '@/types';
 
 defineProps<{
     videoTabDetails: VideoTabDetails;
+    height: number;
 }>();
 
 const { showTraditional } = useTraditional();
@@ -16,8 +17,8 @@ const { autoscrollerEnabled } = useAutoScroller();
 </script>
 
 <template>
-    <Card class="flex h-full flex-1 flex-col">
-        <CardHeader class="gutter overflow-y-auto">
+    <Card class="flex h-full flex-1 flex-col gap-2">
+        <CardHeader class="gutter" v-if="height > 350">
             <CardTitle>{{ videoTabDetails.cardTitle }}</CardTitle>
             <CardDescription>{{ videoTabDetails.cardDescription }}</CardDescription>
             <Separator />
