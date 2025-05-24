@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
-import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import { Button } from '@/components/ui/button';
 import {
     NavigationMenu,
@@ -45,7 +44,7 @@ const mainNavItems: NavItem[] = [
 <template>
     <div class="bg-background sticky top-0 z-10">
         <div class="border-sidebar-border/80 border-b">
-            <div class="mx-auto flex h-16 items-center justify-between px-4 md:justify-start">
+            <div class="mx-auto flex h-14 items-center justify-between px-2 md:justify-start">
                 <!-- Logo -->
                 <Link :href="route('home')" class="flex items-center gap-x-2">
                     <AppLogo />
@@ -203,11 +202,11 @@ const mainNavItems: NavItem[] = [
         </div>
 
         <!-- Breadcrumbs -->
-        <div v-if="props.breadcrumbs.length > 1" class="border-sidebar-border/70 flex w-full border-b">
+        <!-- <div v-if="props.breadcrumbs.length > 1" class="border-sidebar-border/70 flex w-full border-b">
             <div class="mx-auto flex h-12 w-full items-center justify-start px-4 text-neutral-500">
                 <Breadcrumbs :breadcrumbs="breadcrumbs" />
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
