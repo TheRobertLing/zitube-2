@@ -11,5 +11,5 @@ require __DIR__ . '/api.php';
 require __DIR__ . '/dev.php';
 
 Route::fallback(function () {
-    return Inertia::render('PageNotFound');
+    return Inertia::render('public/PageNotFound');
 });
