@@ -4,18 +4,15 @@ import { Separator } from '@/components/ui/separator';
 import { useAutoScroller } from '@/composables/useAutoScroller';
 import { useVueYoutube } from '@/composables/useVueYoutube';
 import { currentIndexBinarySearch } from '@/lib/binarysearch';
-import { secondsToStandardTime } from '@/lib/utils';
 import type { TranscriptSegment, VideoTabDetails } from '@/types';
 import { computed, onMounted, ref, watch } from 'vue';
-import VideoTranscriptHanziRuby from './VideoTranscriptHanziRuby.vue';
-import VideoTranscriptLineContext from './VideoTranscriptLineContext.vue';
-import VideoTranscriptLineMenu from './VideoTranscriptLineMenu.vue';
 import VideoPagination from './VideoPagination.vue';
 
 const props = defineProps<{
     videoTabDetails: VideoTabDetails;
     videoTranscriptData: TranscriptSegment[];
     width: number;
+    height: number;
 }>();
 
 const { currentTime, goToTime } = useVueYoutube();
@@ -66,8 +63,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <Card class="flex h-full flex-1 flex-col gap-1">
-        <CardHeader class="gutter overflow-y-auto">
+    <Card class="flex h-full flex-1 flex-col gap-2">
+        <CardHeader class="gutter" v-if="height > 350">
             <CardTitle>{{ videoTabDetails.cardTitle }}</CardTitle>
             <CardDescription>{{ videoTabDetails.cardDescription }}</CardDescription>
             <Separator />
@@ -88,9 +85,6 @@ onMounted(() => {
             @scroll="scrollContainer?.focus()"
         >
             <VideoPagination :video-transcript-data="videoTranscriptData" />
-
         </CardContent>
     </Card>
 </template>
-
-

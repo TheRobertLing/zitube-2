@@ -28,7 +28,9 @@ const clickForward = (): void => {
 <template>
     <div class="flex flex-1 flex-col border border-green-500">
         <!-- Transcript area -->
-        <div class="flex-1 border border-red-500">{{ modelValue[0] }}</div>
+        <div class="flex-1 overflow-y-scroll border border-red-500">
+            {{ modelValue[0] }}
+        </div>
 
         <!-- Controls -->
         <div class="flex items-center gap-2 border border-purple-500 p-2">
