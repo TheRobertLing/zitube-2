@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Separator from '@/components/ui/separator/Separator.vue';
 import VideoPageLayout from '@/layouts/video/VideoPageLayout.vue';
-import { BreadcrumbItemType, TranscriptSegment, VideoMetaData } from '@/types';
+import { TranscriptSegment, VideoMetaData } from '@/types';
 import { Head, usePage } from '@inertiajs/vue3';
-import { useMediaQuery } from '@vueuse/core';
+import { useWindowSize } from '@vueuse/core';
+import { computed, useTemplateRef } from 'vue';
 import { videoData as d, transcript as t } from '../dev/testtranscript';
 import VideoPlayer from './components/videobox/VideoPlayer.vue';
 import VideoSideBar from './components/videosidebar/VideoSideBar.vue';
@@ -13,14 +13,13 @@ defineProps<{
     videoTranscript: TranscriptSegment[];
 }>();
 
-const breadcrumbs: BreadcrumbItemType[] = [
-    { title: 'Home', href: '/' },
-    { title: 'Video', href: '/dev/video' },
-];
-
 const page = usePage();
-
-const isMobile = useMediaQuery('(max-width: 1024px)');
+const videoBoxRef = useTemplateRef('videoBox');
+const { width, height } = useWindowSize();
+const isLandscape = computed(() => width.value > height.value);
+const layoutClass = computed(() => (isLandscape.value ? 'flex-row' : 'flex-col'));
+const videoBoxLayout = computed(() => (isLandscape.value ? 'flex-3/5' : ''));
+const sidebarLayout = computed(() => (isLandscape.value ? 'flex-2/5' : 'flex-1'));
 </script>
 
 <template>
@@ -39,22 +38,19 @@ const isMobile = useMediaQuery('(max-width: 1024px)');
         <meta property="og:url" :content="`https://zitube.com${page.url}`" />
     </Head>
 
-    <VideoPageLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full w-full flex-col lg:flex-row">
-            <!-- Video player container -->
-            <div
-                class="relative flex aspect-video w-full items-center justify-center overflow-hidden md:flex-1/2 lg:flex-3/5"
-            >
-                <VideoPlayer :video-id="d.id || 'MbEXK7sKqCk'" />
-            </div>
+    <VideoPageLayout class="flex w-full" :class="layoutClass">
+        <!-- Video player container -->
+        <div
+            ref="videoBox"
+            class="relative flex aspect-video w-full items-center justify-center overflow-hidden border"
+            :class="videoBoxLayout"
+        >
+            <VideoPlayer :video-id="d.id || 'MbEXK7sKqCk'" :video-box="videoBoxRef" />
+        </div>
 
-            <!-- Separator based on screen size -->
-            <Separator :orientation="isMobile ? 'horizontal' : 'vertical'" />
-
-            <!-- Sidebar container -->
-            <div class="flex-1 overflow-y-auto md:flex-1/2 lg:flex-2/5">
-                <VideoSideBar :video-meta-data="d" :video-transcript-data="t" />
-            </div>
+        <!-- Sidebar container -->
+        <div class="flex-1 overflow-y-auto border" :class="sidebarLayout">
+            <VideoSideBar :video-meta-data="d" :video-transcript-data="t" />
         </div>
     </VideoPageLayout>
 </template>
