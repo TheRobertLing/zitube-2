@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { initVueYoutube, useVueYoutube } from '@/composables/useVueYoutube';
+import { MaybeElementRef } from '@vue-youtube/core';
 import { useTemplateRef } from 'vue';
 
 const props = defineProps<{
     videoId: string;
+    videoBox: MaybeElementRef;
 }>();
 
 const videoFrameRef = useTemplateRef('videoContainer'); // YouTube container div
-initVueYoutube(props.videoId, videoFrameRef);
+initVueYoutube(props.videoId, videoFrameRef, props.videoBox);
 const { isReady } = useVueYoutube();
 </script>
 
 <template>
-    <div ref="videoContainer" class="p-4"></div>
+    <div ref="videoContainer" class="p-2"></div>
     <div v-if="!isReady" class="bg-opacity-80 absolute inset-0 z-10 flex items-center justify-center p-4">
         <div class="h-12 w-12 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
     </div>
