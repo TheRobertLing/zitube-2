@@ -54,7 +54,7 @@ const videoTabItems: VideoTabItem[] = [
 ];
 
 const tabsEl = useTemplateRef('tabs');
-const { width } = useElementSize(tabsEl);
+const { width, height } = useElementSize(tabsEl);
 
 onMounted(() => {
     if (width.value) {
@@ -66,7 +66,7 @@ onMounted(() => {
 <template>
     <!-- Outer div is for the width watcher. Style MUST be kept for scrolling to work -->
     <div ref="tabs" class="h-full w-full">
-        <Tabs class="h-full p-4" :unmount-on-hide="false" v-model:model-value="activeTab">
+        <Tabs class="h-full p-2" :unmount-on-hide="false" v-model:model-value="activeTab">
             <TabsList class="grid w-full auto-cols-fr grid-flow-col">
                 <template v-for="(item, index) in videoTabItems" :key="index">
                     <TabsTrigger :value="item.tabName" class="cursor-pointer overflow-hidden">
@@ -92,6 +92,7 @@ onMounted(() => {
                         :video-meta-data="videoMetaData"
                         :video-transcript-data="videoTranscriptData"
                         :width="width"
+                        :height="height"
                     />
                 </TabsContent>
             </template>
