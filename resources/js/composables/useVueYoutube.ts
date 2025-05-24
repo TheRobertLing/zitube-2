@@ -1,11 +1,6 @@
 import { MaybeElementRef, Player, usePlayer } from '@vue-youtube/core';
-import { useBreakpoints } from '@vueuse/core';
+import { useElementSize } from '@vueuse/core';
 import { ref, watchEffect } from 'vue';
-
-const breakpoints = useBreakpoints({
-    md: 768,
-    lg: 1024,
-});
 
 // Shared singleton state
 const isReady = ref(false);
@@ -51,7 +46,7 @@ function goToTime(timestamp: number): void {
 }
 
 // Initializes the player and sets up event listeners
-export function initVueYoutube(videoId: string, videoFrameRef: MaybeElementRef) {
+export function initVueYoutube(videoId: string, videoFrameRef: MaybeElementRef, videoBoxRef: MaybeElementRef) {
     const { onReady, onStateChange, instance } = usePlayer(videoId, videoFrameRef);
 
     onReady((event) => {
@@ -62,19 +57,24 @@ export function initVueYoutube(videoId: string, videoFrameRef: MaybeElementRef) 
         iframe.removeAttribute('height');
         iframe.classList.add('aspect-video');
 
-        watchEffect(() => {
-            const isMidScreen = breakpoints.between('md', 'lg').value;
+        const { width, height } = useElementSize(videoBoxRef);
 
+        let lastClass: 'w-full' | 'h-full' | null = null;
+
+        watchEffect(() => {
             if (!iframe) return;
 
-            iframe.classList.remove('w-full', 'h-full');
+            const requiredHeight = (9 / 16) * width.value;
+            const newClass = requiredHeight > height.value ? 'h-full' : 'w-full';
 
-            if (isMidScreen) {
-                iframe.classList.add('h-full');
-            } else {
-                iframe.classList.add('w-full');
-            }
+            if (newClass === lastClass) return;
+
+            // Only update if there's a change
+            iframe.classList.remove('w-full', 'h-full');
+            iframe.classList.add(newClass);
+            lastClass = newClass;
         });
+
         playerInstance.value = instance.value;
         isReady.value = true;
     });
